@@ -39,7 +39,7 @@ jobs:
         with:
           node-version: 20
           cache: npm # 或 pnpm / yarn
-          working-directory: ./viteDocs
+          cache-dependency-path: ./viteDocs
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Install dependencies
