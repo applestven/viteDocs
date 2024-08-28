@@ -9,9 +9,8 @@
     "vitepress": "^1.3.4"
   },
   "scripts": {
-    "docs:dev": "vitepress dev",
     "dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "build": "vitepress build",
+    "preview": "vitepress preview"
   }
 }
