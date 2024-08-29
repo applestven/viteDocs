@@ -6,7 +6,8 @@
   "author": "applestven <applestven@gmail.com.com>",
   "license": "MIT",
   "devDependencies": {
-    "vitepress": "^1.3.4"
+    "vitepress": "^1.3.4",
+    "vitepress-plugin-auto-nav-sidebar": "^1.1.1"
   },
   "scripts": {
     "dev": "vitepress dev",
