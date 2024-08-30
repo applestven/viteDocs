@@ -17,6 +17,7 @@ debug.log
 *.ntvs*
 *.njsproj
 *.sln
+*.sln
 # secret.js
 
 dist
