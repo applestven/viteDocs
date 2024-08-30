@@ -47,7 +47,7 @@ AbyssOrangeMix  深渊菊  二次元风格
 
 ## 提示词 （prompt）
 
-![1694014829631](C:\Users\applestven\AppData\Roaming\Typora\typora-user-images\1694014829631.png)
+<!-- ![1694014829631](C:\Users\applestven\AppData\Roaming\Typora\typora-user-images\1694014829631.png) -->
 
 ## 词权重
 

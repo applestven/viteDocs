@@ -95,20 +95,21 @@ let obj1 = {foo :'bar'}  ;let obj2 ={ ...obj1, // , name:'Jack'}  //一般用于
 <footer class="footer" *ngIf="todos.length"> 条件渲染 
 ```
 4. 引入表单双向绑定 到主模块 (app)
-    
+``` js    
 import {FormsModule} from '@angular/forms';  
-在主模块中添加该
+// 在主模块中添加该
 imports: [
     BrowserModule,
     FormsModule
   ],
-在input中的使用
+// 在input中的使用
  
 <input name="check" class="toggle" type="checkbox" [(ngModel)]="todo.done">  代替了checked   (注意加name:"check" )
-
+```
 5.ngClass 决定是否启用class样式  
+``` html
 <li [ngClass]="{completed:todo.done}" *ngFor="let todo of todos">
-
+```
 6.切换所有的任务项目 
  every()  数组方法 ，判断数组所有的元素是否满足条件 :  
 如果数组中检测到有一个元素不满足，则整个表达式返回 false ，且剩余的元素不会再进行检测。
@@ -230,13 +231,13 @@ this.router.navigate(['/'])
 
 E.路由守卫  （已创建路由文件app-routing）判断token 是否存在并使用 
 1. 在根目录下创建一个auth-guard.services.ts  ,内容：（附件可下载）
-![angular-01](./1.png)
+<!-- ![angular-01](./1.png) -->
 
 2. 在路由文件 routing中 
  
 1.导入 
 import { YourGuard } from '../auth-guard.services'（已上传附件）  ，并在需要使用改路由钩子函数的路由进行“canActivate”
-![angular-01](./2.png)
+<!-- ![angular-01](./2.png) -->
 
 2.导模板：
 @NgModule({
@@ -251,7 +252,7 @@ F.angualr http拦截器Interceptor  设置 全局请求token
   
 1.创建一个 global.interceptor.ts （已上传附件）文件 
 2.内容参见  https://angular.cn/guide/http  
-![angular-01](./1.png)
+<!-- ![angular-01](./1.png) -->
 
 3.导入app.modules.ts根模块中  
 ++import { GlobalInterceptor} from "./global.interceptor"

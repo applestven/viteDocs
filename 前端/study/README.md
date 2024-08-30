@@ -14,7 +14,7 @@
 
 由于微信号好友达到上限，没办法加人入群，推荐关注公众号“技术胖学程序”，每天有编程相关文章推送。
 
-![技术胖公众号](https://newimg.jspang.com/gongzhonghao002.jpg)
+<!-- ![技术胖公众号](https://newimg.jspang.com/gongzhonghao002.jpg) -->
 
 
 

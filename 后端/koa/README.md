@@ -57,7 +57,7 @@ app.listen(3000, () => {
 
 在终端, 使用`node src/main.js`
 
-![image-20210521142016066](http://image.brojie.cn/image-20210521142016066.png)
+<!-- ![image-20210521142016066](http://image.brojie.cn/image-20210521142016066.png) -->
 
 # 三. 项目的基本优化
 
@@ -264,7 +264,7 @@ npm i koa-body
 
 ![xiao](http://image.brojie.cn/image-20210521165536780.png) -->
 <!-- 基础路径 -->
-<img class="custom" src="http://image.brojie.cn/image-20210521165536780.png" alt="xiao">
+<!-- <img class="custom" src="http://image.brojie.cn/image-20210521165536780.png" alt="xiao"> -->
 
 ## 3 解析请求数据
 
