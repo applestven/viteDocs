@@ -4,14 +4,14 @@ import VitePressSidebar from 'vitepress-sidebar';
 const vitepressSidebarOptions = {
   /* Options... */
   debugPrint: false,
-  documentRootPath: '../',
-  // collapsed: true,
+  documentRootPath: '/',
+  collapsed: true,
   // rootGroupCollapsed: true,
 };
 export default defineConfig({
   title: "applestven",
   description: "applestven blog",
-  base: './',
+  base: '/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
