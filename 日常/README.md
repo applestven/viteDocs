@@ -1,14 +1,7 @@
-## 收藏即学习
-    1、浙江大学课程攻略共享计划（星标 35.3 K）：https://github.com/QSCTech/zju-icicles
-    2、清华大学计算机系课程攻略（星标 31.3 K）：https://github.com/PKUanonym/REKCARC-TSC-UHT
-    3、贵校课程资料民间整理（星标 29.9 K）：https://github.com/lib-pku/libpku
-    4、中国科学技术大学课程资源（星标 14.3 K）：https://github.com/USTC-Resource/USTC-Course
-    5、Bilibili 公开课目录（星标 4.4 K）：https://github.com/elder-frog/OpenCourseCatalog
-    6、Open Source Society University（开源社会大学，星标 158 K）：https://github.com/ossu/computer-science#intro-cs
-    7、TeachYourselfCS-CN（自学计算机科学，星标 19.1 K）：https://github.com/izackwu/TeachYourselfCS-CN
-    8、Awesome CS Courses（真棒计算机科学课程，星标 52.7 K）：https://github.com/prakhar1989/awesome-courses 
+## 日常待半
 
-## 视频流 
-
-视频流基础入门知识 
-https://juejin.cn/post/7217761561925681189?searchId=20240721215154CF5C305553F68543638E
+###  整理文档  理顺日常记录 与专项记录  方便 学习与记录
+###  整理视频下载项目 代办 
+1. 视频流下载   
+   - 视频流有音视频分离 需要音视频合并
+   - 也有视频流下载下来非mp4格式封装  需要重新编解码 
