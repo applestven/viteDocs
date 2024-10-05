@@ -11,8 +11,8 @@ hero:
       text: Markdown Examples
       link: /example/markdown-examples
     - theme: brand
-      text: API Examples
-      link: /example/api-examples
+      text: Daily agency
+      link: /日常/README
 
 features:
   - title: Feature A
