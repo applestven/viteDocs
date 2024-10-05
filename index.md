@@ -7,12 +7,12 @@ hero:
   text: "applestven blog"
   tagline: My great project tagline
   actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
     - theme: alt
+      text: Markdown Examples
+      link: /example/markdown-examples
+    - theme: brand
       text: API Examples
-      link: /api-examples
+      link: /example/api-examples
 
 features:
   - title: Feature A
