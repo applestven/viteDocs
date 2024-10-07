@@ -39,10 +39,5 @@ https://baijiahao.baidu.com/s?id=1766784681555713264&wfr=spider&for=pc
 https://civitai.com/models/3627/protgenv22-aime-offiial-release
 
 
-## whisper 的安装 ： 
 
-https://www.jianshu.com/p/3f7abe0de65f
-
-
-https://github.com/openai/whisper
 
