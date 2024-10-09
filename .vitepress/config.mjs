@@ -13,6 +13,9 @@ export default defineConfig({
   description: "applestven blog",
   base: '/',
   themeConfig: {
+    search: {
+      provider: 'local'
+    },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
