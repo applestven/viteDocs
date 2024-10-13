@@ -13,3 +13,23 @@
 ## 学习软件 
 
 [finallyshell激活-支持所有版本（老版 + 最新版） + 所有平台（mac + windows）](https://blog.csdn.net/qq_46170664/article/details/138897848)
+
+
+## win系统升级专业版 
+
+- 激活码
+  NQ64T-W8XV2-YQFKW-WTFWG-P7JXM
+
+- 教程
+    7系统激活教程
+    https://m.tb.cn/h.glnuDS6?
+    tk=EtF33iA9d3k
+    8.1系统激活教程
+    https://m.tb.cn/h.grPP13A?
+    tk=14D03iA93Qp
+    11系统激活教程
+    https://m.tb.cn/h.glnuNpH?
+    tk=BYfG3iAQtEs
+    10系统激活教程
+    https://m.tb.cn/h.grJjtdx？
+    tk=xe0b3iA9jrp
