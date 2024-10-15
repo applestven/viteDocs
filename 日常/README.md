@@ -34,4 +34,4 @@
 2. 创建激活码数据库表 
 
 
-
+## [Next.js 项目最佳实践](https://juejin.cn/post/7194410416879960125?searchId=20241015225342CBEE749A2AB7FB6C299D)
