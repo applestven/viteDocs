@@ -9,6 +9,8 @@
 - https://github.com/openai/whisper whisper的安装下载
 - https://www.hostbuf.com/  finallyshell
 - http://www.8u.cn/ 8uftp 免费ftp工具
++ https://www.navicat.com.cn/products  Navicat Premium Lite 
+  - applestven@gmail.com 7796~36aA~
 
 ## 学习软件 
 
