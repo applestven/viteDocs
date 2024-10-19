@@ -11,6 +11,8 @@
 - http://www.8u.cn/ 8uftp 免费ftp工具
 + https://www.navicat.com.cn/products  Navicat Premium Lite 
   - applestven@gmail.com 7796~36aA~
+- https://www.apipost.cn/  apipost  下载最新闪退过  转移apifox   web版本 ： https://workspace.apipost.net/32f584/apis
+- https://apifox.com/  apifox
 
 ## 学习软件 
 
