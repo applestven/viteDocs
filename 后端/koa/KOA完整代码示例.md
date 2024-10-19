@@ -239,7 +239,7 @@ module.exports  = new CartService()
 
 ## 购物车模型  
 
-``` bach
+``` bash
  
 // 1.导入sequelize 的连接 
 const { DataTypes } = require('sequelize')

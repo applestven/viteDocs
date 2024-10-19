@@ -6,7 +6,7 @@ https://www.jianshu.com/p/3f7abe0de65f
 https://github.com/openai/whisper
 
 
-- ``` poswershell
+``` bash
 pip install ffmpeg
 
 pip install -U openai-whisper
