@@ -37,3 +37,7 @@
     10系统激活教程
     https://m.tb.cn/h.grJjtdx？
     tk=xe0b3iA9jrp
+
+### github 开源
+
+- https://github.com/tporadowski/redis/releases  redis
