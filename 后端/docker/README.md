@@ -440,10 +440,10 @@ ip a 可以看到容器外面有docker0 bridge
 
 ``` bash
 ### 创建数据库  -v volume  持续化存储  
-docker run -d --name mysql -v mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=779604436 -e MYSQL_DATABASE=wordpress mysql
+docker run -d --name mysql -v mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=7796~36 -e MYSQL_DATABASE=wordpress mysql
 
 ### 创建wordpress容器 ， --link 创建内网桥连接 到容器mysql -p 将内网80端口 映射到虚拟机本地8080端口
-docker run -d -e WORDPRESS_DB_HOST=mysql:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=779604436  --link mysql -p 8877:80 wordpress
+docker run -d -e WORDPRESS_DB_HOST=mysql:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=7796~36  --link mysql -p 8877:80 wordpress
 
 ```
 
@@ -578,7 +578,7 @@ services:
       - 8080:80
     environment:
         WORDPRESS_DB_HOST: mysql
-        WORDPRESS_DB_PASSWORD: 779604436
+        WORDPRESS_DB_PASSWORD: 7796~36
     networks:
       - my-bridge
 
@@ -586,7 +586,7 @@ services:
     image: mysql
     environment:
       WORDPRESS_DB_USE: root
-      WORDPRESS_DB_PASSWORD: 779604436
+      WORDPRESS_DB_PASSWORD: 7796~36
       MYSQL_DATABASE: wordpress
     volumes:
       - mysql-data:/var/lib/mysql
@@ -772,7 +772,7 @@ services:
     environment:
         WORDPRESS_DB_HOST: mysql:3306
         WORDPRESS_DB_USER: root
-        WORDPRESS_DB_PASSWORD: 779604436
+        WORDPRESS_DB_PASSWORD: 7796~36
     networks:
       - my-network
     depends_on: # 运行依赖于 mysql  先启mysql 
@@ -792,7 +792,7 @@ services:
   mysql:
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 779604436
+      MYSQL_ROOT_PASSWORD: 7796~36
       MYSQL_DATABASE: wordpress
     volumes:
       - mysql-data:/var/lib/mysql
