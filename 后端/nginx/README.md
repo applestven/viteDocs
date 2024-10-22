@@ -19,8 +19,6 @@ sudo systemctl status nginx
 
 sudo systemctl start nginx
 
-
-
 ## ubuntu 安装nginx 并配置nginx
 
 - 1. 确保你的系统包列表是最新的  sudo apt update
