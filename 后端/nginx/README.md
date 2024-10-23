@@ -62,9 +62,9 @@ sudo systemctl start nginx
     ```bash
         server {
             listen 80;
-            server_name example.com www.example.com;
+            server_name itclass.top apis.itclass.top;
 
-            root /var/www/example.com/html;
+            root /var/www/apis.itclass.top/html;
             index index.html;
 
             location / {
@@ -74,7 +74,7 @@ sudo systemctl start nginx
     ```
     - 4.5 启用站点：
     ```bash
-        sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+        sudo ln -s /etc/nginx/sites-available/apis.itclass.top /etc/nginx/sites-enabled/
     ```
     - 4.6 测试配置文件：
     ```bash
@@ -93,7 +93,7 @@ sudo systemctl start nginx
 
 6. 访问你的网站
 
-打开浏览器，访问 http://example.com 或 http://your_server_ip，你应该会看到你刚刚创建的页面
+打开浏览器，访问 http://apis.itclass.top 或 http://your_server_ip，你应该会看到你刚刚创建的页面
 
 
 
@@ -200,44 +200,110 @@ http {
 }
 ```
 
-## 通过 docker-compose 部署 多应用程序 （nas）
 
-1. 通过 docker-compose部署demo  : 
-隐藏参考文件 ： nodePro （包括前后端的访问 内外网映射）
-- docker-compose多容器启动 node项目、 nginx（）   docker-compose.yml
-- nginx nginx映射配置 前端项目地址访问  default.conf 
-- nodejs nodejs2 两个后端项目 
-- statc文件夹 前端项目存放地址  
-（未完待续 完成水平扩展 负载均衡 nginx的水平扩展  不停机更新 版本回滚等）
+## nginx 初始化配置
 
-2. 仿照demo nodePro 去部署一个前后端一体的项目 千里云课堂 （mysql + vue + express ）
+```conf
+events {
+        worker_connections 768;
+        # multi_accept on;
+}
+
+http {
+
+        ##
+        # Basic Settings
+        ##
+
+        sendfile on;
+        tcp_nopush on;
+        types_hash_max_size 2048;
+        # server_tokens off;
+
+        # server_names_hash_bucket_size 64;
+        # server_name_in_redirect off;
+
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        ##
+        # SSL Settings
+        ##
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+"/etc/nginx/nginx.conf" 83L, 1447B                                                                       27,0-1         7%
+
+events {
+        worker_connections 768;
+        # multi_accept on;
+}
+
+http {
+
+        ##
+        # Basic Settings
+        ##
+
+        sendfile on;
+        tcp_nopush on;
+        types_hash_max_size 2048;
+        # server_tokens off;
+
+        # server_names_hash_bucket_size 64;
+        # server_name_in_redirect off;
 
 
-## docker mysql 导入sql文件 
+        ##
+        # SSL Settings
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
 
-在容器内操作 ：  
-mysql -uroot -p test < test.sql
+        ##
+        # Logging Settings
+        ##
 
-mysql -uroot -p payment < /home/temporary/payment.sql 
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
 
-mysql 基础操作 ： 
-show databases  ;  显示数据库表 
-USE payment;  选中数据库 
-DESCRIBE adminpay;  // 查询数据库表结构 
+        ##
+        # Gzip Settings
+        ##
 
-## mysql 查询 对外端口 
-进入mysql 
+        gzip on;
 
-show global variables like 'port';
+        # gzip_vary on;
+        # gzip_proxied any;
+        # gzip_comp_level 6;
+        # gzip_buffers 16 8k;
+        # gzip_http_version 1.1;
 
-## docker启动MySQL后 其他应用如何连接 MySQL
+        ##
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
 
-##  查看 启动的nodejs的日志
+events {
+        worker_connections 768;
+        # multi_accept on;
+}
 
- pm2 logs
+http {
 
-## docker 查可用版本  
+        ##
+        # Basic Settings
+        ##
 
+        sendfile on;
+        tcp_nopush on;
+        types_hash_max_size 2048;
+        # server_tokens off;
 
+        # server_names_hash_bucket_size 64;
+        # server_name_in_redirect off;
 
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
 
+  
+```
