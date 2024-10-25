@@ -22,6 +22,7 @@ sudo apt install speedtest-cli
 ```bash
 speedtest-cli
 ```
+## ubuntu查看可访问的端口
 
 
 ## ubuntu 查询开放端口
