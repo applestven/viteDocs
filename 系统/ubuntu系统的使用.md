@@ -65,3 +65,33 @@ chmod [权限选项] /path/to/folder
 ## ubuntu 查询 文件 文件夹 权限所属
 
 ls -ld /path/to/example_folder
+
+## ubuntu查询内存 
+cat /proc/meminfo
+
+## ubuntu查询内存状态 
+free -h
+
+## ubuntu 查询cpu状态
+
+top
+
+## ubuntu 查询磁盘状态
+
+df -h
+
+## ubuntu 查询磁盘使用情况
+
+du -sh /path/to/folder
+
+## ubuntu 查询进程
+
+ps -ef | grep process_name
+
+## ubuntu 查询进程id
+
+ps -ef | grep process_name | grep -v grep | awk '{print $2}'
+
+## ubuntu 查询进程id并杀死
+
+ps -ef | grep process_name | grep -v grep | awk '{print $2}' | xargs kill -9
