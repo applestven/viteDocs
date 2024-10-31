@@ -8,11 +8,12 @@
 https://cn.ubuntu.com/download/server/thank-you?version=24.04.1&architecture=amd64
 
 ## [rufus](https://rufus.ie/) 
+https://rufus.ie/
 rufuns 启动盘制作软件
 [Ubuntu18.04详细安装指南](https://juejin.cn/post/6844904136811479053?searchId=20241028171004B1239FCD268C44FEF87C)
 ## ubuntu的安装 
 
-https://www.163987.com/jiaocheng/113669.html  服务器版
+https://ubuntu.com/download/desktop  桌面版
 
 ## ubuntu测网速
 
