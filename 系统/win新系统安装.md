@@ -8,6 +8,7 @@
 - https://ffmpeg.org/download.html  https://www.gyan.dev/ffmpeg/builds/   ffmpeg 下载安装 将下载的 ZIP 文件解压 将目录添加到环境变量
 - https://github.com/openai/whisper whisper的安装下载
 - https://www.hostbuf.com/  finallyshell
+- https://termius.com/ termius  ssh
 - http://www.8u.cn/ 8uftp 免费ftp工具
 + https://www.navicat.com.cn/products  Navicat Premium Lite 
   - applestven@gmail.com 7796~36aA~

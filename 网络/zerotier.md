@@ -1,3 +1,7 @@
+## 网络节点 
+zerotier-cli join e5cd7a9e1c1a655b
+
+
 ## zerotier 组网 
 搭建根 plant
 https://zhuanlan.zhihu.com/p/544807922     可以参考其思路 ，但下载链接不能使用
@@ -30,11 +34,19 @@ sudo rm -rf /etc/zerotier-one /var/lib/zerotier-one
 ## zeriter moon 节点 000000afd4acfeb5
 
 
-###  加入 Moon 节点
+###  加入 Moon 节点 
 zerotier-cli join 000000afd4acfeb5 
+
+## 查询节点是否已经加入 Moon 节点：在其他节点上运行以下命令，将 <node-id> 替换为其他节点的 ID
+
+zerotier-cli listnetworks <node-id>
+
+zerotier-cli listnetworks 也可以列出已经加入的网络 以及 moon节点
 
 ### 要检查是否成功加入 Moon 节点，可以运行
 
 zerotier-cli listpeers // 查所有的设备
 
 zerotier-cli listmoons // 查所有的moon
+
+
