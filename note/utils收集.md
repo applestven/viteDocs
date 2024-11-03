@@ -118,7 +118,7 @@ async function launchBrowser(options = {}) {
 //     user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36',
 //   });
 //   // your code here
-//   browser = await switchProxy(browser, 'http://127.0.0.1:9999');
+//   browser = await switchProxy(browser, 'http://127.0.0.1:9993');
 //   // your code here
 // }
 
