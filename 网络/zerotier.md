@@ -43,13 +43,10 @@ zerotier-cli listmoons // 查所有的moon
 ## 脚本安装plant
 https://github.com/xubiaolin/docker-zerotier-planet
 
-
-5d91163f4eba65d4959d5f61b0bf5b93d45ac2f5f335de25a65885d24f004c8d
-安装完成
 ---------------------------
 请访问 http://83.229.123.43:9999 进行配置
 默认用户名：admin
-默认密码：password
+默认密码：7796~36aA
 请及时修改密码
 ---------------------------
 moon配置和planet配置在 /root/docker-zerotier-planet/data/zerotier/dist 目录下
@@ -58,4 +55,4 @@ planet文件下载： http://83.229.123.43:3000/planet?key=c7b1299681198500
 
 
 ## 网络id 
-zerotier-cli.bat join 3c15b7af39414c52
+zerotier-cli.bat join bd404f7ed432d4b8
