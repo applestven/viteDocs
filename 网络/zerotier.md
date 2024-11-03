@@ -53,8 +53,8 @@ https://github.com/xubiaolin/docker-zerotier-planet
 请及时修改密码
 ---------------------------
 moon配置和planet配置在 /root/docker-zerotier-planet/data/zerotier/dist 目录下
-moons 文件下载： http://83.229.123.43:3000/0000003c15b7af39.moon?key=653f7ceeea93f70b 
-planet文件下载： http://83.229.123.43:3000/planet?key=653f7ceeea93f70b 
+moons 文件下载： http://83.229.123.43:3000/000000bd404f7ed4.moon?key=c7b1299681198500 
+planet文件下载： http://83.229.123.43:3000/planet?key=c7b1299681198500
 
 
 ## 网络id 
