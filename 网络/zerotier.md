@@ -49,4 +49,5 @@ zerotier-cli listpeers // 查所有的设备
 
 zerotier-cli listmoons // 查所有的moon
 
+## [通过docker自建PLANET服务器](https://blog.csdn.net/qq_45692552/article/details/142104463)
 
