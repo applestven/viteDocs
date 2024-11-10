@@ -59,4 +59,7 @@ planet文件下载： http://83.229.123.43:3000/planet?key=a3025c0281c807b2
 ## [通过docker自建PLANET服务器](https://blog.csdn.net/qq_45692552/article/details/142104463)
 
 ## 网络id 
-zerotier-cli.bat join bd404f7ed432d4b8
+zerotier-cli join 00dc51157b5b307e
+## planet配置文件目录 
+
+C:\ProgramData\ZeroTier\One
