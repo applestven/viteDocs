@@ -46,12 +46,15 @@ https://github.com/xubiaolin/docker-zerotier-planet
 ---------------------------
 请访问 http://83.229.123.43:9999 进行配置
 默认用户名：admin
-默认密码：7796~36aA
+默认密码：aA
 请及时修改密码
 ---------------------------
 moon配置和planet配置在 /root/docker-zerotier-planet/data/zerotier/dist 目录下
-moons 文件下载： http://83.229.123.43:3000/000000bd404f7ed4.moon?key=c7b1299681198500 
-planet文件下载： http://83.229.123.43:3000/planet?key=c7b1299681198500
+moons 文件下载： http://83.229.123.43:3000/00000000dc51157b.moon?key=a3025c0281c807b2 
+planet文件下载： http://83.229.123.43:3000/planet?key=a3025c0281c807b2 
+---------------------------
+请放行以下端口：9994/tcp,9994/udp，9999/tcp，3000/tcp
+---------------------------
 
 ## [通过docker自建PLANET服务器](https://blog.csdn.net/qq_45692552/article/details/142104463)
 
