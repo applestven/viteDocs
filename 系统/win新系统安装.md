@@ -19,7 +19,7 @@
 
 [finallyshell激活-支持所有版本（老版 + 最新版） + 所有平台（mac + windows）](https://blog.csdn.net/qq_46170664/article/details/138897848)
 
-
+- termius 链接: https://pan.baidu.com/s/1UsBs7_vDHvhrx-bmYeseIw 提取码: efzv 复制这段内容后打开百度网盘手机App，操作更方便哦
 ## win系统升级专业版 
 
 - 激活码
