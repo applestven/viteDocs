@@ -31,7 +31,7 @@ sudo rm -rf /etc/zerotier-one /var/lib/zerotier-one
 
 
 ###  加入 Moon 节点
-zerotier-cli join 000000afd4acfeb5 
+zerotier join 000000afd4acfeb5 
 
 ### 要检查是否成功加入 Moon 节点，可以运行
 

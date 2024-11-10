@@ -99,7 +99,7 @@ TCP:3443
 
 $ sudo pacman -S zerotier-one
 
-如果是Ubuntu/Debian/CentOS，则运行：
+## ubuntu安装zerotier 如果是Ubuntu/Debian/CentOS，则运行：
 
 $ curl -s https://install.zerotier.com/ | sudo bash
 
