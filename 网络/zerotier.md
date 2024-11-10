@@ -63,3 +63,29 @@ zerotier-cli join 00dc51157b5b307e
 ## planet配置文件目录 
 
 C:\ProgramData\ZeroTier\One
+
+## linux 配置
+
+``` sh
+
+#!/bin/bash
+
+# 进入目标目录
+cd /var/lib/zerotier-one
+
+# 删除旧的 planet 文件
+rm planet
+
+# 下载新的 planet 文件
+wget -O planet "http://83.229.123.43:3000/planet?key=a3025c0281c807b2"
+
+# 重启 ZeroTier 服务
+service zerotier-one restart
+
+# 加入指定的网络
+zerotier-cli join 00dc51157b5b307e
+
+# 查看对等节点信息
+zerotier-cli peers
+
+```
