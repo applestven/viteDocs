@@ -8,6 +8,7 @@
 - https://ffmpeg.org/download.html  https://www.gyan.dev/ffmpeg/builds/   ffmpeg 下载安装 将下载的 ZIP 文件解压 将目录添加到环境变量
 - https://github.com/openai/whisper whisper的安装下载
 - https://www.hostbuf.com/  finallyshell
+- https://termius.com/ termius  ssh
 - http://www.8u.cn/ 8uftp 免费ftp工具
 + https://www.navicat.com.cn/products  Navicat Premium Lite 
   - applestven@gmail.com 7796~36aA~
@@ -18,7 +19,7 @@
 
 [finallyshell激活-支持所有版本（老版 + 最新版） + 所有平台（mac + windows）](https://blog.csdn.net/qq_46170664/article/details/138897848)
 
-
+- termius 链接: https://pan.baidu.com/s/1UsBs7_vDHvhrx-bmYeseIw 提取码: efzv 复制这段内容后打开百度网盘手机App，操作更方便哦
 ## win系统升级专业版 
 
 - 激活码
