@@ -52,3 +52,9 @@ git stash apply stash@{n}   n是序列数
 
 
 
+## 8. 本地替换远程分支
+
+``` bash
+git remote remove origin  
+git remote add origin 远程仓库地址  
+```
