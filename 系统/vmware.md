@@ -13,3 +13,12 @@
 
 【超级会员V10】通过百度网盘分享的文件：VMwareWo....rar
 链接: https://pan.baidu.com/s/1PUDnxL4JWALVbTgkbDh2LA 提取码: vctb 复制这段内容后打开百度网盘手机App，操作更方便哦
+
+
+## vmware安装macos
+
+- 1.vmware解锁macos工具 
+链接: https://pan.baidu.com/s/1PyOJ9eeYjW-DrN9embybMQ 提取码: wge1 复制这段内容后打开百度网盘手机App，操作更方便哦
+
+- 教程
+https://baijiahao.baidu.com/s?id=1786452324777623233&wfr=spider&for=pc
