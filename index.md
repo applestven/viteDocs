@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "applestven"
-  text: "applestven blog"
+  text: "陈柳熹 blog"
   tagline: My great project tagline
   actions:
     - theme: alt
