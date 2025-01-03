@@ -200,110 +200,36 @@ http {
 }
 ```
 
-
+## 一步很重要 http { include /etc/nginx/sites-enabled/*;}
 ## nginx 初始化配置
 
 ```conf
-events {
-        worker_connections 768;
-        # multi_accept on;
-}
-
-http {
-
-        ##
-        # Basic Settings
-        ##
-
-        sendfile on;
-        tcp_nopush on;
-        types_hash_max_size 2048;
-        # server_tokens off;
-
-        # server_names_hash_bucket_size 64;
-        # server_name_in_redirect off;
-
-        include /etc/nginx/mime.types;
-        default_type application/octet-stream;
-
-        ##
-        # SSL Settings
-        ##
-
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
-"/etc/nginx/nginx.conf" 83L, 1447B                                                                       27,0-1         7%
-
-events {
-        worker_connections 768;
-        # multi_accept on;
-}
-
-http {
-
-        ##
-        # Basic Settings
-        ##
-
-        sendfile on;
-        tcp_nopush on;
-        types_hash_max_size 2048;
-        # server_tokens off;
-
-        # server_names_hash_bucket_size 64;
-        # server_name_in_redirect off;
-
-
-        ##
-        # SSL Settings
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
-        ssl_prefer_server_ciphers on;
-
-        ##
-        # Logging Settings
-        ##
-
-        access_log /var/log/nginx/access.log;
-        error_log /var/log/nginx/error.log;
-
-        ##
-        # Gzip Settings
-        ##
-
-        gzip on;
-
-        # gzip_vary on;
-        # gzip_proxied any;
-        # gzip_comp_level 6;
-        # gzip_buffers 16 8k;
-        # gzip_http_version 1.1;
-
-        ##
-user www-data;
 worker_processes auto;
+
+error_log /var/log/nginx/error.log;
 pid /run/nginx.pid;
-include /etc/nginx/modules-enabled/*.conf;
 
 events {
-        worker_connections 768;
-        # multi_accept on;
+    worker_connections 1024;
 }
 
 http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
 
-        ##
-        # Basic Settings
-        ##
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
 
-        sendfile on;
-        tcp_nopush on;
-        types_hash_max_size 2048;
-        # server_tokens off;
+    access_log /var/log/nginx/access.log main;
 
-        # server_names_hash_bucket_size 64;
-        # server_name_in_redirect off;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
 
-        include /etc/nginx/mime.types;
-        default_type application/octet-stream;
-
-  
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
 ```
