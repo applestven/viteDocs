@@ -43,11 +43,12 @@ FLUSH PRIVILEGES; #刷新权限
 #忘记密码重新设置  ： https://www.cnblogs.com/wsl-/p/10688292.html
 
 
-## ubuntu 数据库初始化
+## ubuntu 数据库安装 初始化
 
   1. 安装
   sudo apt-get update 
   sudo apt-get install mysql-server
+
 
   1. 设置账号密码
   安装后 直接使用 sudo mysql  登陆root用户数据库
@@ -58,6 +59,7 @@ FLUSH PRIVILEGES; #刷新权限
   3. 数据库状态
    sudo systemctl status mysql
 
+   开启服务 ：sudo systemctl start mysql 
    停止服务 ：sudo systemctl stop mysql
 
   4. 进行安全性配置：
