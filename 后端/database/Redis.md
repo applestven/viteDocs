@@ -117,6 +117,22 @@ redis-server --service-uninstall --service-name redis3.2.0
     sudo apt install redis-server
     sudo service redis-server start 
 
+##  ubuntu安装redis
+```bash
+# 更新软件包列表 安装
+sudo apt update
+sudo apt install redis-server -y
+redis-server --version
+# 启动和启用 Redis 服务： 启动服务
+sudo systemctl start redis
+# 设置开机自启
+sudo systemctl enable redis
+# 检查 Redis 是否运行正常
+systemctl status redis
+# 测试连接： 使用 Redis CLI 测试连接：
+redis-cli
+```
+
 # redis 基本操作 
 
 基本的数据格式和操作
