@@ -233,3 +233,35 @@ http {
     include /etc/nginx/sites-enabled/*;
 }
 ```
+
+## 配置music.itclass.top的过程
+1. 添加域名解析 music.itclass.top
+2. 在nginx中添加 nano /etc/nginx/sites-available/music.itclass.top
+   ```
+    server {
+        listen 80;
+        server_name music.itclass.top;
+
+        location / {
+            proxy_pass http://10.146.84.20:4533;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            }
+        }
+
+   ```
+3. 检查添加文件是否有错误/重新加载nginx 
+   ```
+    sudo nginx -t
+    sudo systemctl reload nginx
+   ```
+4. 查看sites-available目录下的文件没有反应，可能是因为该配置文件没有被链接到sites-enabled目录   
+``` bash
+    ls -l /etc/nginx/sites-enabled/
+ ```
+5. 查找是否有music.itclass.top的链接。如果没有，你需要创建它  重新启动
+   ``` bash
+    sudo ln -s /etc/nginx/sites-available/music.itclass.top /etc/nginx/sites-enabled/
+   ```
