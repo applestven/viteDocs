@@ -117,6 +117,7 @@ redis-server --service-uninstall --service-name redis3.2.0
     sudo apt install redis-server
     sudo service redis-server start 
 
+
 ##  ubuntu安装redis
 ```bash
 # 更新软件包列表 安装
@@ -263,4 +264,22 @@ zset类型(有序集合):
        删除权重在指定范围的元素： zremrangebyscore key min max
         (删除集合'a4'中权限在5、6之间的元素)
          zremrangebyscore a4 5 6
+```
+
+## 查询redis数据
+```bash
+redis-cli -h 127.0.0.1 -p 6379
+keys *  # 查看所有key
+get key  # 查看key对应的value
+set key value  # 设置key对应的value
+del key  # 删除key对应的value
+exit  # 退出redis
+```
+
+## 关闭redis 服务
+```bash
+sudo systemctl stop redis
+sudo systemctl disable redis
+sudo systemctl status redis
+sudo systemctl enable redis
 ```
