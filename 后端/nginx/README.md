@@ -203,7 +203,7 @@ http {
 ## 一步很重要 http { include /etc/nginx/sites-enabled/*;}
 ## nginx 初始化配置
 
-```conf
+```bash
 worker_processes auto;
 
 error_log /var/log/nginx/error.log;
