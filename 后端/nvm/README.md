@@ -23,3 +23,42 @@ nvm -v(-version)              // 查看nvm版本（检测是否安装上）
 nvm ls                   //查看当前通过nvm管理的node
 nvm use    10.12.0             //切换node版本，node10.12.0版本
 node -v      
+
+## linux安装nvm
+## linux安装nvm方法一 使用 curl 或者weget命令获取 nvm 安装脚本（这种执行慢，需要看几率 有墙）
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+```
+
+## linux安装nvm方法一（推荐，多几个步骤，但是安装快）
+```bash
+wget https://github.com/nvm-sh/nvm/archive/refs/tags/v0.38.0.tar.gz
+
+mkdir -p /root/.nvm
+
+tar -zxvf v0.38.0.tar.gz -C /home/apple/soft
+
+vim ~/.bashrc 
+```
+
+1. 插入文件.bashrc 
+
+```bash
+export NVM_DIR="/home/apple/soft"
+[ -s "$NVM_DIR/nvm-0.38.0/nvm.sh" ] && \. "$NVM_DIR/nvm-0.38.0/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm-0.38.0/bash_completion" ] && \. "$NVM_DIR/nvm-0.38.0/bash_completion"  # This loads nvm 
+```
+
+1. 使用配置
+```bash
+
+source ~/.bashrc
+
+```
+
+3. 检查版本 测试是否安装
+
+```bash
+nvm -v
+```

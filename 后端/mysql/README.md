@@ -15,7 +15,7 @@ net start mysql 开启msql服务 ；
 
 mysql -u root -p登入   输入前面得到的随机密码   
 
-alter user 'root'@'localhost' identified by '779604436';     (by 接着的是密码)    修改密码
+alter user 'root'@'localhost' identified by '7796~36';     (by 接着的是密码)    修改密码
 
 
 2. 配置sqlyog   在百度网盘  =》 学习工具有相关安装包
@@ -38,16 +38,17 @@ show databases ;   查看数据库
 ALTER USER'root'@'localhost' IDENTIFIED BY 'root' PASSWORD EXPIRE NEVER; #修改加密规则 
 ALTER USER'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; #更新一下用户的密码 
 FLUSH PRIVILEGES; #刷新权限
-重置密码：alter user'root'@'localhost' identified by '779604436';
+重置密码：alter user'root'@'localhost' identified by '7796~36';
 
 #忘记密码重新设置  ： https://www.cnblogs.com/wsl-/p/10688292.html
 
 
-## ubuntu 数据库初始化
+## ubuntu 数据库安装 初始化
 
   1. 安装
   sudo apt-get update 
   sudo apt-get install mysql-server
+
 
   1. 设置账号密码
   安装后 直接使用 sudo mysql  登陆root用户数据库
@@ -58,6 +59,7 @@ FLUSH PRIVILEGES; #刷新权限
   3. 数据库状态
    sudo systemctl status mysql
 
+   开启服务 ：sudo systemctl start mysql 
    停止服务 ：sudo systemctl stop mysql
 
   4. 进行安全性配置：

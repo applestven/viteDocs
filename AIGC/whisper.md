@@ -1,4 +1,20 @@
-## whisper 
+## whisper 的安装 ： 
+
+https://www.jianshu.com/p/3f7abe0de65f
+
+
+https://github.com/openai/whisper
+
+
+``` bash
+pip install ffmpeg
+
+pip install -U openai-whisper
+```
+
+
+
+## whisper 的使用参数
 
 
 

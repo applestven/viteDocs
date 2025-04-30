@@ -39,6 +39,53 @@ port 6379
       select 10
 
 ## redis 的安装  
+
+### [window安装redis下载地址](https://github.com/tporadowski/redis/releases) 
+
+[参考免安装版本](https://juejin.cn/post/7321410924106973210?searchId=2024101810400598D4CCA80CBE09DAB7F1)
+
+### 免安装版本 下载解压执行 cmd窗口执行
+
+``` bash
+redis-server.exe redis.windows.conf
+```
++ 说明
+  - 1. 默认的ip是 127.0.0.1 默认端口 6379
+  - 2. 测试是否成功命令 redis-cli ping
+
+
+也可以直接下载安装版
+
+### Redis 常用服务命令
+``` bash
+卸载服务：	redis-server --service-uninstall
+开启服务：	redis-server --service-start
+停止服务：	redis-server --service-stop
+重命名服务：	redis-server --service-name NAME
+
+使用自定义服务名
+redis-server.exe --service-install --service-name redis3.2.0 redis.windows-service.conf
+
+redis-server --service-uninstall --service-name redis3.2.0
+
+
+```
+
+
++ 将启动命令注册为服务
+    指定配置文件
+
+    redis-server.exe --service-install redis.windows-service.conf
+
+    其余参数
+
+    --service-name 指定服务名
+
+    --port 指定服务端口
+
+ 
+
+### redis window ubuntu虚拟机安装
 1. 环境准备 ： 
 - windows 安装ubuntu  
     + Windows  控制面板 - 启动或关闭windows功能 - 适用linux的windows子系统  
@@ -69,6 +116,23 @@ port 6379
     sudo apt update 
     sudo apt install redis-server
     sudo service redis-server start 
+
+
+##  ubuntu安装redis
+```bash
+# 更新软件包列表 安装
+sudo apt update
+sudo apt install redis-server -y
+redis-server --version
+# 启动和启用 Redis 服务： 启动服务
+sudo systemctl start redis
+# 设置开机自启
+sudo systemctl enable redis
+# 检查 Redis 是否运行正常
+systemctl status redis
+# 测试连接： 使用 Redis CLI 测试连接：
+redis-cli
+```
 
 # redis 基本操作 
 
@@ -200,4 +264,22 @@ zset类型(有序集合):
        删除权重在指定范围的元素： zremrangebyscore key min max
         (删除集合'a4'中权限在5、6之间的元素)
          zremrangebyscore a4 5 6
+```
+
+## 查询redis数据
+```bash
+redis-cli -h 127.0.0.1 -p 6379
+keys *  # 查看所有key
+get key  # 查看key对应的value
+set key value  # 设置key对应的value
+del key  # 删除key对应的value
+exit  # 退出redis
+```
+
+## 关闭redis 服务
+```bash
+sudo systemctl stop redis
+sudo systemctl disable redis
+sudo systemctl status redis
+sudo systemctl enable redis
 ```

@@ -239,7 +239,7 @@ module.exports  = new CartService()
 
 ## 购物车模型  
 
-``` bach
+``` bash
  
 // 1.导入sequelize 的连接 
 const { DataTypes } = require('sequelize')
@@ -401,7 +401,7 @@ APP_PORT = 5588
 MYSQL_HOST = 127.0.0.1
 MYSQL_POST = 3306
 MYSQL_USER = root
-MYSQL_PWD = 779604436
+MYSQL_PWD = 7796~36
 MYSQL_DB = koa
 
 JWT_SECRET = xzd

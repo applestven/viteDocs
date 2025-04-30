@@ -19,20 +19,101 @@ sudo systemctl status nginx
 
 sudo systemctl start nginx
 
+## ubuntu 安装nginx 并配置nginx
+
+- 1. 确保你的系统包列表是最新的  sudo apt update
+
+- 2. 安装 Nginx： sudo apt install nginx
+
+- 3. 检查 Nginx 状态 是否正在运行：sudo systemctl status nginx
+
++ 4 配置 Nginx 
+
+    - Nginx 的主配置文件位于 /etc/nginx/nginx.conf。通常情况下，你不需要修改这个文件，而是修改站点特定的配置文件
+    - 创建站点配置文件 假设你要为一个名为 example.com 的网站创建配置文件，可以按照以下步骤操作
+    - 4.1 创建示例 HTML 文件：sudo mkdir -p /var/www/example.com/html
+    - 4.2 配置站点：设置权限
+        ``` bash
+            sudo chown -R www-data:www-data /var/www/example.com/html
+            sudo chmod -R 755 /var/www/example.com
+        ```
+    - 4.3 创建示例 HTML 文件：
+
+        ```bash
+        sudo nano /var/www/example.com/html/index.html
+        ```
+    -   写入 HTML 文件：
+        ``` html
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Welcome to Example.com</title>
+        </head>
+        <body>
+            <h1>Success! The example.com server block is working!</h1>
+        </body>
+        </html>
+        ```
+    - 4.4  创建站点配置文件
+    ``` bash
+        sudo nano /etc/nginx/sites-available/example.com
+    ```
+    - 写入
+    ```bash
+        server {
+            listen 80;
+            server_name itclass.top apis.itclass.top;
+
+            root /var/www/apis.itclass.top/html;
+            index index.html;
+
+            location / {
+                try_files $uri $uri/ =404;
+            }
+        }
+    ```
+    - 4.5 启用站点：
+    ```bash
+        sudo ln -s /etc/nginx/sites-available/apis.itclass.top /etc/nginx/sites-enabled/
+    ```
+    - 4.6 测试配置文件：
+    ```bash
+        sudo nginx -t
+    ```
+    - 如果配置文件没有问题，你会看到类似于 syntax is ok 和 test is successful 的输出。
+    - 4.7 重新加载 Nginx
+    ```bash
+        sudo systemctl reload nginx
+    ```
+    
+5. 配置防火墙    
+    如果你的系统启用了 UFW（Uncomplicated Firewall），需要允许 HTTP 流量通过：
+    
+- sudo ufw allow 'Nginx Full'
+
+6. 访问你的网站
+
+打开浏览器，访问 http://apis.itclass.top 或 http://your_server_ip，你应该会看到你刚刚创建的页面
 
 
 
+## 配置代理服务器配置 
 
 
 
+```
+server {
+    listen 80;
+    server_name api.itclass.top;
 
-
-
-
-
-
-
-
+    location / {
+        proxy_pass http://43.139.236.50/api;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+```
 
 
 
@@ -119,44 +200,68 @@ http {
 }
 ```
 
-## 通过 docker-compose 部署 多应用程序 （nas）
+## 一步很重要 http { include /etc/nginx/sites-enabled/*;}
+## nginx 初始化配置
 
-1. 通过 docker-compose部署demo  : 
-隐藏参考文件 ： nodePro （包括前后端的访问 内外网映射）
-- docker-compose多容器启动 node项目、 nginx（）   docker-compose.yml
-- nginx nginx映射配置 前端项目地址访问  default.conf 
-- nodejs nodejs2 两个后端项目 
-- statc文件夹 前端项目存放地址  
-（未完待续 完成水平扩展 负载均衡 nginx的水平扩展  不停机更新 版本回滚等）
+```bash
+worker_processes auto;
 
-2. 仿照demo nodePro 去部署一个前后端一体的项目 千里云课堂 （mysql + vue + express ）
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
 
+events {
+    worker_connections 1024;
+}
 
-## docker mysql 导入sql文件 
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
 
-在容器内操作 ：  
-mysql -uroot -p test < test.sql
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
 
-mysql -uroot -p payment < /home/temporary/payment.sql 
+    access_log /var/log/nginx/access.log main;
 
-mysql 基础操作 ： 
-show databases  ;  显示数据库表 
-USE payment;  选中数据库 
-DESCRIBE adminpay;  // 查询数据库表结构 
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
 
-## mysql 查询 对外端口 
-进入mysql 
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
+```
 
-show global variables like 'port';
+## 配置music.itclass.top的过程
+1. 添加域名解析 music.itclass.top
+2. 在nginx中添加 nano /etc/nginx/sites-available/music.itclass.top
+   ```
+    server {
+        listen 80;
+        server_name music.itclass.top;
 
-## docker启动MySQL后 其他应用如何连接 MySQL
+        location / {
+            proxy_pass http://10.146.84.20:4533;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            }
+        }
 
-##  查看 启动的nodejs的日志
-
- pm2 logs
-
-## docker 查可用版本  
-
-
-
-
+   ```
+3. 检查添加文件是否有错误/重新加载nginx 
+   ```
+    sudo nginx -t
+    sudo systemctl reload nginx
+   ```
+4. 查看sites-available目录下的文件没有反应，可能是因为该配置文件没有被链接到sites-enabled目录   
+``` bash
+    ls -l /etc/nginx/sites-enabled/
+ ```
+5. 查找是否有music.itclass.top的链接。如果没有，你需要创建它  重新启动
+   ``` bash
+    sudo ln -s /etc/nginx/sites-available/music.itclass.top /etc/nginx/sites-enabled/
+   ```

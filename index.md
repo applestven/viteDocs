@@ -7,16 +7,16 @@ hero:
   text: "applestven blog"
   tagline: My great project tagline
   actions:
-    - theme: brand
-      text: Daily agency
-      link: /日常/README
     - theme: alt
       text: Markdown Examples
-      link: /example/markdown-examples  
+      link: /example/markdown-examples
+    - theme: brand
+      text: Daily agency
+      link: /日常/dailyAgency
 
 features:
   - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    details: Lorem indepsum dolor sit amet, consectetur adipiscing elit
   - title: Feature B
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - title: Feature C

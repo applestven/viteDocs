@@ -9,13 +9,23 @@
 6. sudo ufw delete allow [端口号]  关闭指定端口
 7. sudo ufw deny [端口号] 不允许访问指定端口号 
 
+## 开放SSH服务
+sudo apt update
+sudo apt install openssh-server
+sudo systemctl start ssh
+sudo systemctl enable ssh
+sudo systemctl status ssh
 
+如开防火墙 则 ：
+sudo ufw allow 22
 
 ## vim 的使用  
 
 
-
-
+## 改密
+    passwd username 
+## 改名
+sudo mv oldname newname
 ## linux 命令收集 
 
 netstat  -tunlp  v查看可访问的端口

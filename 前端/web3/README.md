@@ -110,7 +110,7 @@ Truffle是一个世界级的智能合约开发框架，专门为智能合约而�
 
 
 
-``` sol 
+``` javascript 
 // SPDX-License-Identifier: GPL-3.0
 
 // 源码遵循协议，MIT...
@@ -948,7 +948,7 @@ https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
 
 <!--D:\studyClass\study-class\web3.0\code\contracts\KervinToken.sol-->
 
-``` sol
+``` javascript
 // SPDX-License-Identifier: GPL-3.0
 
 // 源码遵循协议，MIT...
@@ -1232,7 +1232,7 @@ module.exports = async function (callback){
 
 <!-- D:\studyClass\study-class\web3.0\code\contracts\Exchange.sol -->
 
-```sol
+```javascript
 // SPDX-License-Identifier: GPL-3.0
 
 // 源码遵循协议，MIT...
@@ -1352,7 +1352,7 @@ contract Exchange{
 
 
 
-\``` sol 
+\``` javascript 
 
 
 

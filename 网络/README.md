@@ -99,7 +99,7 @@ TCP:3443
 
 $ sudo pacman -S zerotier-one
 
-如果是Ubuntu/Debian/CentOS，则运行：
+## ubuntu安装zerotier 如果是Ubuntu/Debian/CentOS，则运行：
 
 $ curl -s https://install.zerotier.com/ | sudo bash
 
@@ -141,7 +141,7 @@ $ sudo zerotier-idtool initmoon identity.public > moon.json
 
 接下来编辑一下 moon.json，把 "stableEndpoints": [] 这一节里加入中转机器的公网IP，例如 "stableEndpoints": ["1.2.3.4/9993"]，其中
 
-9993是默认监听的端口，接下来要把9993端口的防火墙放开(注意是UDP)，如果你的机器外边还有防火墙的话，也要一起放开，例如阿里云的机器就有
+9999是默认监听的端口，接下来要把9999端口的防火墙放开(注意是UDP)，如果你的机器外边还有防火墙的话，也要一起放开，例如阿里云的机器就有
 
 防火墙规则，要一起把对应端口的UDP流量放行，此后，我们要生成moon的配置：
 
