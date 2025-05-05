@@ -17,3 +17,6 @@ graph TD
 4. 要支持ffmpeg命令拼接，也支持fluent-ffmpeg 通过二进制文件的最后一个参数判断 
 5. 给出从零开始搭建整个项目
 6. 提供测试用例
+
+已完成，项目地址：
+git@gitee.com:applestven/nodeFFmpeg.git
