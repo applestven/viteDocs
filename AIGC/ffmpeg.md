@@ -1,3 +1,12 @@
+## ubuntu 安装ffmpeg
+1. 使用 APT 安装（推荐）
+```bash
+sudo apt update
+sudo apt install ffmpeg
+ffmpeg -version
+
+```
+
 ### ffmpeg 的命令  
 
 
@@ -21,3 +30,5 @@ ffmpeg -i 2小时.mp4 -vn -acodec copy -c:v h264_cuvid output.mp3
 ffmpeg -i input_video.mp4 -i input_audio.mp3 -c:v copy -c:a aac -strict experimental output_video.mp4
 
 ```
+
+## 
