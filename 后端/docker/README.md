@@ -6,6 +6,12 @@
 ` curl -fsSL https://get.docker.com -o get-docker.sh`
 ` sudo sh get-docker.sh `
 
+2. 推荐
+```bash  
+apt  install docker.io 
+
+```
+
 ## 可能遇到的问题 ： debconf: delaying package configuration, since apt-utils is not installed
 
 解决 ： 
@@ -14,8 +20,50 @@
 
 未解决
 
-2. 手动安装
-  待完善 
+## docker 换源 
+
+1. 使用香港服务器搭桥 
+```bash
+docker run -d -p 5000:5000 --name registry-proxy \
+  -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io \
+  registry
+
+```
+2. 在国内服务器测试是否搭建成功
+``` bash
+curl http://83.229.123.43:5000/v2/
+curl http://10.146.84.9:5000/v2/
+```
+返回 ：{} 表示搭建成功
+
+3. 国内docker使用搭桥
+```bash
+
+ sudo nano /etc/docker/daemon.json   
+
+{
+  "registry-mirrors": ["http://83.229.123.43:5000"],
+  "insecure-registries": ["83.229.123.43:5000"]
+}
+
+{
+  "registry-mirrors": ["http://10.146.84.9:5000"],
+  "insecure-registries": ["10.146.84.9:5000"]
+}
+
+```
+
+3. 国内重启docker 服务
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+```
+4. 拉取镜像 (如果拉不到 考虑搭桥机国外也想要拉取这个镜像)
+``` bash
+docker pull 83.229.123.43:5000/library/eclipse-temurin
+docker pull 10.146.84.9:5000/library/eclipse-temurin
+```
 
 ## 要停止所有的Docker镜像，可以使用以下命令 docker stop $(docker ps -aq)  
 ## 删除所有容器 docker rm $(docker ps -aq)
@@ -23,19 +71,7 @@
 
 ## 1. docker 获取镜像 image 的两种方式 
 
-```bash
 
-1. registry   ps:（换源）
-
- sudo tee /etc/docker/daemon.json   
-
-{
-"registry-mirrors": ["https://yxzrazem.mirror.aliyuncs.com"]
-}
- 复制黏贴如下  然后回车换行  再输入 :wq   ctrl+C 退出  
-
-
-```
 
 ## 打包自己的docekr包 上传
 
