@@ -6,7 +6,6 @@
  1.  编辑命令 
    sudo vim /etc/nginx/nginx.conf
    
-   
 ## 重启使得修改的nginx配置文件生效
 sudo nginx -s reload
 
@@ -75,6 +74,8 @@ sudo systemctl start nginx
     - 4.5 启用站点：
     ```bash
         sudo ln -s /etc/nginx/sites-available/apis.itclass.top /etc/nginx/sites-enabled/
+
+        sudo ln -s /etc/nginx/sites-available/vmq.itclass.top /etc/nginx/sites-enabled/
     ```
     - 4.6 测试配置文件：
     ```bash

@@ -28,6 +28,10 @@ docker run -d -p 5000:5000 --name registry-proxy \
   -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io \
   registry
 
+# 已经运行过
+docker stop registry-proxy
+docker rm registry-proxy
+
 ```
 2. 在国内服务器测试是否搭建成功
 ``` bash
@@ -39,7 +43,7 @@ curl http://10.146.84.9:5000/v2/
 3. 国内docker使用搭桥
 ```bash
 
- sudo nano /etc/docker/daemon.json   
+sudo nano /etc/docker/daemon.json   
 
 {
   "registry-mirrors": ["http://83.229.123.43:5000"],
