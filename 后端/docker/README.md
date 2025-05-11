@@ -65,7 +65,7 @@ sudo systemctl restart docker
 ```
 4. 拉取镜像 (如果拉不到 考虑搭桥机国外也想要拉取这个镜像)
 ``` bash
-docker pull 83.229.123.43:5000/library/eclipse-temurin
+docker pull 10.146.84.9:5000/library/mysql:8
 docker pull 10.146.84.9:5000/library/eclipse-temurin
 ```
 
