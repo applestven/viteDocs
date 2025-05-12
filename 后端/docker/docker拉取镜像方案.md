@@ -31,8 +31,8 @@ sudo nano /etc/systemd/system/docker.service.d/http-proxy.conf
 
 ```bash
 [Service]
-Environment="HTTP_PROXY=http://192.168.0.108:7890"
-Environment="HTTPS_PROXY=http://192.168.0.108:7890"
+Environment="HTTP_PROXY=http://10.146.84.9:7890"
+Environment="HTTPS_PROXY=http://10.146.84.9:7890"
 Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.example.com"  # 可选，排除某些地址
 
 ```

@@ -41,7 +41,7 @@ sudo certbot renew --dry-run
 
 1. 使用 Certbot 获取并配置 HTTPS
 ``` bash
-sudo certbot --nginx -d cloud.itclass.top
+sudo certbot --nginx -d faka.itclass.top
 ```
 
 这就完成了 一般都是90天 续期手动测试 

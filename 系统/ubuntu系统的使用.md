@@ -57,3 +57,6 @@ ps -ef | grep process_name | grep -v grep | awk '{print $2}'
 ## ubuntu 查询进程id并杀死
 
 ps -ef | grep process_name | grep -v grep | awk '{print $2}' | xargs kill -9
+
+## 强制删除文件夹
+rm -rf /path/to/folder

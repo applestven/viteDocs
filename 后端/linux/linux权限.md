@@ -35,3 +35,6 @@ chmod [权限选项] /path/to/folder
 ## ubuntu 查询 文件 文件夹 权限所属
 
 ls -ld /path/to/example_folder
+
+## 将当前文件夹权限给到当前用户
+chmod -R 777 .
