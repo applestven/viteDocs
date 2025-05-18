@@ -24,7 +24,7 @@ server {
 ## 启用站点
 
 ```bash
- sudo ln -s /etc/nginx/sites-available/testhttp.itclass.top /etc/nginx/sites-enabled/
+ sudo ln -s /etc/nginx/sites-available/tv.itclass.top /etc/nginx/sites-enabled/
 ```
 
 ## 测试配置文件
