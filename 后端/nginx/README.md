@@ -73,7 +73,7 @@ sudo systemctl start nginx
     ```
     - 4.5 启用站点：
     ```bash
-        sudo ln -s /etc/nginx/sites-available/apis.itclass.top /etc/nginx/sites-enabled/
+        sudo ln -s /etc/nginx/sites-available/vmq.itclass.top /etc/nginx/sites-enabled/
 
         sudo ln -s /etc/nginx/sites-available/vmq.itclass.top /etc/nginx/sites-enabled/
     ```

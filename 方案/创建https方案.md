@@ -1,4 +1,4 @@
-魔法通道 ：Let's Encrypt获取以及部署最佳方式  ubuntu nginx   pay.itclass.top vmq.itclass.top
+魔法通道 ：Let's Encrypt获取以及部署最佳方式  ubuntu nginx   pay.itclass.top vmq.itclass.top faka.itclass.top 
 
 ## 获取证书 安装 Certbot
 Certbot 是一个用于从 Let's Encrypt 获取 SSL 证书的工具。首先，更新你的软件包列表并安装 Certbot：
@@ -14,7 +14,7 @@ sudo apt install certbot python3-certbot-nginx
 
 ``` bash
 
-sudo certbot --nginx -d pay.itclass.top -d vmq.itclass.top
+sudo certbot --nginx -d pay.itclass.top -d vmq.itclass.top -d faka.itclass.top -d tv.itclass.top -d music.itclass.top -d cloud.itclass.top
 
 ```
 
