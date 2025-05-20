@@ -9,7 +9,6 @@ sudo apt install certbot python3-certbot-nginx
 ```
 
 中间省略nginx配置好了pay.itclass.top vmq.itclass.top
-
 ## 使用 Certbot 获取 SSL 证书
 
 ``` bash
