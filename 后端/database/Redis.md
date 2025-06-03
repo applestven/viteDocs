@@ -111,11 +111,6 @@ redis-server --service-uninstall --service-name redis3.2.0
 
     + 可以应用打开ubuntu  ， 也可以cmd 输入ubuntu 打开
 
-2. 安装redis-serve     
-    
-    sudo apt update 
-    sudo apt install redis-server
-    sudo service redis-server start 
 
 
 ##  ubuntu安装redis
