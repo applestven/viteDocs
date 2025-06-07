@@ -42,13 +42,13 @@
 
 1. 打开你的git bash 窗口(cmd打不开 必须gitbash)
 2. 进入.ssh目录： cd ~/.ssh
-3. 查看公钥： cat id_rsa.pub 或者 vim id_rsa.pub
+3. 查看公钥： cat ~/.ssh/id_rsa.pub 或者 vim id_rsa.pub
 
 ## git 设置本地相关
     git config --global user.name "你的名字"
     git config --global user.email "你的邮箱"
 
-    ps：ssh-keygen -t rsa -C "你的邮箱"     重新生成你的公钥
+    ps：ssh-keygen -t rsa -C "applestven@gmail.com"     重新生成你的公钥
 
     ssh -T git@github.com 测试一下通不通
 

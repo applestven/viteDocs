@@ -3,6 +3,11 @@
 cd /etc/nginx/sites-available
 ```
 
+## 新建配置文件
+```bash
+sudo nano /etc/nginx/sites-available/tv.itclass.top
+```
+
 ## default 模板
 
 ```bash

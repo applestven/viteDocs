@@ -30,6 +30,11 @@ node -v
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 ```
+## 如果安装成功后，需要重新加载配置文件
+```bash
+source ~/.bashrc
+```
+
 
 ## linux安装nvm方法一（推荐，多几个步骤，但是安装快）
 ```bash
