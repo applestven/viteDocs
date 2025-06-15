@@ -24,3 +24,5 @@ dist
 .vuepress/**/
 
 cache
+
+output
