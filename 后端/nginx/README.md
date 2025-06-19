@@ -32,10 +32,10 @@ sudo systemctl start nginx
     - 创建站点配置文件 假设你要为一个名为 example.com 的网站创建配置文件，可以按照以下步骤操作
     - 4.1 创建示例 HTML 文件：sudo mkdir -p /var/www/example.com/html
     - 4.2 配置站点：设置权限
-``` bash
-    sudo chown -R www-data:www-data /var/www/example.com/html
-    sudo chmod -R 755 /var/www/example.com
-```
+        ``` bash
+            sudo chown -R www-data:www-data /var/www/example.com/html
+            sudo chmod -R 755 /var/www/example.com
+        ```
     - 4.3 创建示例 HTML 文件：
 
         ```bash

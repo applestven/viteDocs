@@ -1,0 +1,1 @@
+scp ./nginx_static.sh root@38.38.250.209:/home/ubuntu/
