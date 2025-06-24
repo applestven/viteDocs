@@ -23,3 +23,28 @@ sudo curl -L "http://192.168.0.108:5421/api/download?filename=docker-compose-lin
 && docker-compose --version
 
 ```
+
+
+## docker compose 安装方式（推荐：Docker CLI 插件方式）
+✅ 方式 1：作为 Docker CLI 插件安装（适用于 Docker 20.10+）
+下载最新版本（以 v2.24.5 为例）：
+
+```bash
+mkdir -p ~/.docker/cli-plugins
+curl -SL https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+
+```
+
+添加执行权限：
+``` bash
+
+chmod +x ~/.docker/cli-plugins/docker-compose
+
+```
+
+验证是否安装成功：
+```bash
+
+docker compose version
+
+```
