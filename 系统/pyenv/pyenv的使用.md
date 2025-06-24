@@ -1,19 +1,3 @@
-## pyenv-win  
-https://blog.csdn.net/dair6/article/details/129128240
-
-https://blog.csdn.net/yuanjinshenglife/article/details/145670991(推荐)
-## 安装
-
-1. git clone https://github.com/pyenv-win/pyenv-win.git
-2. 修改环境变量
-**添加PYENV添加到系统变量，而不是用户变量。**
-变量名：PYENV
-变量值：C:\Users\用户名.pyenv\pyenv-win 这里填写你的pyenv路径
-
-**添加PATh变量**
-%PYENV%\bin
-%PYENV%\shims
-
 ## 使用 pyenv-win 管理 python 版本
 
 ``` bash
@@ -34,4 +18,3 @@ pyenv global 3.5.2
 # 设置指定文件夹下的 python 版本；在指定 文件夹下执行该命令，文件夹下会生成一个配置文件（不能删除）
 pyenv local 3.5.2
 ## 查当前python版本文件夹位置 
-
