@@ -22,3 +22,6 @@
 
 - 教程
 https://baijiahao.baidu.com/s?id=1786452324777623233&wfr=spider&for=pc
+
+
+## vmware安装win
