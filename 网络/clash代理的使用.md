@@ -25,9 +25,17 @@ $Env:http_proxy="http://192.168.8.108:7890";$Env:https_proxy="http://192.168.8.1
 
 ubuntu
 
-export http_proxy=http://192.168.8.105:7890
-export https_proxy=http://192.168.8.105:7890
-export all_proxy=socks5://192.168.8.105:7890
+export http_proxy=http://192.168.8.104:7890
+export https_proxy=http://192.168.8.104:7890
+export all_proxy=socks5://192.168.8.104:7890
+
+export http_proxy=http://192.168.0.112:7890
+export https_proxy=http://192.168.0.112:7890
+export all_proxy=socks5://192.168.0.112:7890
+
+export http_proxy=http://10.146.84.213:7890
+export https_proxy=http://10.146.84.213:7890
+export all_proxy=socks5://10.146.84.213:7890
 ```
 
 ## 去掉代理
