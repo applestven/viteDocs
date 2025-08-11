@@ -3,6 +3,7 @@
 # ========== 配置区域 ==========
 
 declare -A ssh_accounts=(
+    ["8"]="root@8.148.184.96"
     ["7"]="ubuntu@123.58.219.234"
     ["6"]="apple@192.168.0.110"
     ["5"]="gangzhouweixiao@192.168.191.76"
@@ -13,12 +14,15 @@ declare -A ssh_accounts=(
 )
 
 declare -A ssh_hosts=(
-    ["6"]="mylocal"
-    ["5"]="weixiao"
-    ["4"]="belink"
-    ["3"]="tencent"
-    ["2"]="yecaoyun"
-    ["1"]="local"
+    ["8"]="咸鱼客户的zerotier服务器"
+    ["7"]="ubuntu@123.58.219.234"
+    ["6"]="apple@192.168.0.110"
+    ["5"]="gangzhouweixiao@192.168.191.76"
+    ["4"]="apple@10.254.91.20"
+    ["3"]="ubuntu@43.139.236.50"
+    ["2"]="root@83.229.123.43"
+    ["1"]="apple@10.254.91.6"
+    ["0"]="local"
 )
 
 # ========== 展示账号列表 ==========
