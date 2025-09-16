@@ -1,5 +1,9 @@
 # Tailscale 使用指南
 
+## 常用命令
+``` bash
+ping 100.123.18.75 -c 4
+```
 ## 官方资源
 
 - [官网](https://tailscale.com/)
