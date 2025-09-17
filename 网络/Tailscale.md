@@ -22,6 +22,11 @@ ping 100.123.18.75 -c 4
 
 ### 2. 安装客户端
 
+#### mac安装使用
+
+brew install --cask tailscale
+
+
 支持平台：
 - Windows / Mac / Linux
 - NAS / 路由器 / 树莓派等设备
