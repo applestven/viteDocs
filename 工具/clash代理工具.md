@@ -46,3 +46,22 @@ unset http_proxy https_proxy all_proxy
 获取所有的能够使用的代理地址 
 
 切换第几个地址
+
+
+## ubuntu 配置临时代理 
+
+```bash
+# 设置 HTTP 代理
+export http_proxy="http://192.168.0.105:7890"
+# 设置 HTTPS 代理
+export https_proxy="http://192.168.0.105:7890"
+# 设置 FTP 代理（如果需要）
+export ftp_proxy="http://192.168.0.105:7890"
+
+# 如果需要 curl / wget 支持
+export ALL_PROXY="http://192.168.0.105:7890"
+
+export ALL_PROXY="socks5://192.168.0.105:7890"
+
+
+```
