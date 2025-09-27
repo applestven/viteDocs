@@ -17,6 +17,11 @@ docker load -i nextcloud_image.tar
 docker images
 ```
 
+### 1.1  将服务器文件下载到本地
+``` bash
+scp root@83.229.123.43:/root/zerotier-planet.tar C:\Users\a1829\Documents
+```
+
 ## 2.使用clash代理局域网代理
 
 1. 为 Docker 守护进程配置代理
