@@ -1,3 +1,7 @@
+## 代码原址
+
+https://github.com/xubiaolin/docker-zerotier-planet?tab=readme-ov-file
+
 ## 服务器配置 
 请放行以下端口：9994/tcp,9994/udp，3443/tcp，3000/tcp
 
