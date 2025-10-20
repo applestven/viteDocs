@@ -1,5 +1,5 @@
 ﻿CidrBlock,Protocol,Port,Action,FirewallRuleDescription
-0.0.0.0/0,TCP,7001,ACCEPT,冗余端口
+0.0.0.0/0,TCP,7001,ACCEPT,冗余端口 // clash控制面板
 0.0.0.0/0,TCP,7002,ACCEPT,冗余端口
 0.0.0.0/0,TCP,7003,ACCEPT,冗余端口
 0.0.0.0/0,TCP,7004,ACCEPT,冗余端口

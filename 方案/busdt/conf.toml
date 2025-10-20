@@ -1,9 +1,9 @@
 # 应用访问地址，留空则系统自动获取，前端收银台会用到，建议设置，例如：https://token-pay.example.com
 app_uri = ""
 # 认证Token，对接会用到这个参数【很重要建议修改】
-auth_token = "123234"
+auth_token = "123234sdfaasdfasdfasdf"
 # 服务器HTTP监听地址
-listen = ":8080"
+listen = ":8181"
 # 静态资源路径，例如：/root/bepusdt/static；通过此参数可自定义模板，参考static目录，如非必要不建议修改。
 static_path = ""
 # SQLite数据库路径
@@ -34,7 +34,7 @@ wallet_address = [
     #    "tron.trx:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
     #    "usdt.trc20:TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
     #    "usdt.bep20:0x55d398326f99059ff775485246999027b3197955",
-    "usdt.trc20:TLTX3JevFE5Czh98WNUpRSWRpGSDzhvHuK"
+    "usdt.trc20:TLTX3JevFE5Czh98WNUpRSWRpGSDzhvHuK",
 ]
 # 是否需要网络确认，禁用可以提高回调速度，启用则可以防止交易失败
 trade_is_confirmed = false

@@ -33,9 +33,17 @@ export http_proxy=http://192.168.0.112:7890
 export https_proxy=http://192.168.0.112:7890
 export all_proxy=socks5://192.168.0.112:7890
 
-export http_proxy=http://10.146.84.213:7890
-export https_proxy=http://10.146.84.213:7890
-export all_proxy=socks5://10.146.84.213:7890
+export http_proxy=http://10.146.84.222:7890
+export https_proxy=http://10.146.84.222:7890
+export all_proxy=socks5://10.146.84.222:7890
+
+export http_proxy=http://127.0.0.1:7890
+export https_proxy=http://127.0.0.1:7890
+export all_proxy=socks5://127.0.0.1:7891
+
+export http_proxy="http://127.0.0.1:7890"
+export https_proxy="http://127.0.0.1:7890"
+export all_proxy="socks5://127.0.0.1:7891"
 ```
 
 ## 去掉代理
