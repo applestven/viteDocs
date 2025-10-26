@@ -2,13 +2,13 @@
 ## clash临时终端代理配置（仅当前会话）
 
 ```bash
-export http_proxy="http://192.168.0.108:7890"
-export https_proxy="http://192.168.0.108:7890"
+export http_proxy="http://192.168.0.112:7890"
+export https_proxy="http://192.168.0.112:7890"
 ```
 
 ```bash
-export http_proxy="http://10.146.84.9:7890"
-export https_proxy="http://10.146.84.9:7890"
+export http_proxy="http://10.146.84.179:7890"
+export https_proxy="http://10.146.84.179:7890"
 ```
 
 ## 测试代理
