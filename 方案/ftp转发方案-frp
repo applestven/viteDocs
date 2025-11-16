@@ -1,0 +1,76 @@
+🟥 第一部分：公网服务器（frps）操作
+
+作用：运行 frps，把端口 7010 开放出来给外网访问。
+
+① 下载并安装 FRP（公网服务器执行）
+cd /tmp
+wget https://github.com/fatedier/frp/releases/download/v0.57.0/frp_0.57.0_linux_amd64.tar.gz
+tar -xzf frp_0.57.0_linux_amd64.tar.gz
+sudo mv frp_0.57.0_linux_amd64 /etc/frp
+
+② 创建 frps.ini（公网服务器执行）
+sudo tee /etc/frp/frps.ini >/dev/null <<EOF
+[common]
+bind_port = 7000
+EOF
+
+③ 赋予执行权限（公网服务器执行）
+sudo chmod +x /etc/frp/frp_0.57.0_linux_amd64/frps
+
+④ 启动 frps（公网服务器执行）
+sudo /etc/frp/frp_0.57.0_linux_amd64/frps -c /etc/frp/frps.ini
+
+
+保持此窗口运行即可（也可后面教你做 systemd）
+
+🟦 第二部分：内网 FTP 服务器（frpc）操作
+
+作用：把本机 FTP (21 端口) 转发到公网 7010。
+
+① 下载 FRP（FTP 内网服务器执行）
+cd /tmp
+wget https://github.com/fatedier/frp/releases/download/v0.57.0/frp_0.57.0_linux_amd64.tar.gz
+tar -xzf frp_0.57.0_linux_amd64.tar.gz
+sudo mv frp_0.57.0_linux_amd64 /etc/frp
+
+② 创建 frpc.ini（FTP 内网服务器执行）
+
+❗注意：改成你的公网服务器 IP（不要写 127.0.0.1）
+
+sudo tee /etc/frp/frpc.ini >/dev/null <<EOF
+[common]
+server_addr = 公网服务器IP
+server_port = 7000
+
+[ftp]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 21
+remote_port = 7010
+EOF
+
+
+例：
+
+server_addr = 8.8.8.8
+
+③ 赋予执行权限（FTP 内网服务器执行）
+sudo chmod +x /etc/frp/frp_0.57.0_linux_amd64/frpc
+
+④ 启动 frpc（FTP 内网服务器执行）
+sudo /etc/frp/frp_0.57.0_linux_amd64/frpc -c /etc/frp/frpc.ini
+
+
+保持运行即可。
+
+🟩 第三部分：外网访问方式（最终测试）
+
+外网任何地方访问 FTP：
+
+ftp 公网服务器IP 7010
+
+
+
+命令 ： 
+ftp
+open 43.139.236.50 7010  
