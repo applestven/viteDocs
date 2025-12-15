@@ -29,7 +29,9 @@ server {
 ## 启用站点
 
 ```bash
- sudo ln -s /etc/nginx/sites-available/tv.itclass.top /etc/nginx/sites-enabled/
+ sudo ln -s /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/
+
+ sudo rm /etc/nginx/sites-enabled/nextcloud
 ```
 
 ## 测试配置文件
