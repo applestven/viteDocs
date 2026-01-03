@@ -1,0 +1,12 @@
+version: "3"
+services:
+  hertzbeat:
+    image: apache/hertzbeat:latest
+    container_name: hertzbeat
+    ports:
+      - "1157:1157"
+    volumes:
+      - ./hertzbeat-data:/data
+    restart: unless-stopped
+
+# 默认账号密码 admin  hertzbeat
