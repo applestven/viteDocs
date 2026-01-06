@@ -54,7 +54,9 @@
     ```
     - 4.5 启用站点：
     ```bash
-        sudo ln -s /etc/nginx/sites-available/vmq.itclass.top /etc/nginx/sites-enabled/
+        sudo ln -s /etc/nginx/sites-available/ip-proxy.conf /etc/nginx/sites-enabled/ip-proxy.conf
+
+        sudo ln -s /etc/nginx/sites-available/dv-tv-8686.conf /etc/nginx/sites-enabled/dv-tv-8686.conf
 
         sudo ln -s /etc/nginx/sites-available/vmq.itclass.top /etc/nginx/sites-enabled/
     ```
