@@ -10,3 +10,38 @@ services:
     restart: unless-stopped
 
 # 默认账号密码 admin  hertzbeat
+
+# 生成 SSH key
+# 把 HertzBeat 容器的公钥拷出来  
+# 1️⃣ 进入容器 
+# docker exec -it hertzbeat bash  
+#  如果不是 bash，用 sh：
+# docker exec -it hertzbeat sh 
+# 2️⃣ 生成 SSH key（一路回车即可）
+# ssh-keygen -t rsa -b 4096 -f /root/.ssh/id_rsa -N ""    
+
+
+# 执行后会生成：
+# /root/.ssh/id_rsa
+# /root/.ssh/id_rsa.pub
+
+# 打印
+# cat /root/.ssh/id_rsa.pub
+
+
+# 二、把公钥加到「被监控服务器」
+
+# mkdir -p ~/.ssh
+# chmod 700 ~/.ssh
+# nano ~/.ssh/authorized_keys
+
+# 粘贴刚才那一行公钥
+# chmod 600 ~/.ssh/authorized_keys
+
+##四、测试连通性（强烈建议） 
+# 在 HertzBeat 容器里手动连一次：
+# docker exec -it hertzbeat ssh apple@192.168.191.20
+
+
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDH7pXSbU+9KuauUdLPaflF6QWWuvpuj0METv1ZK1tAqwVjBsWhzsCcHWzzdp958BrWeVlJj9JhkbCTBsJ5wyyJBDPjD+iK189z67BbAxrZtf1zHX4k4iEPtTqsL0B1Cx1JPggBW8xxP8+iDxdpZUMhUkrKUYd6pgK56UHFtxxRSQriPt575zrLcQCOPe4gdoPW42yOZLtPOUvd7m+0BzD9JX+92n17zaP1+Nkddm9xdobVq8gXmL+N3ejX+U21Po3D4DecSGMex6uIElvIuwPV2Bd+VCutB8Y3pK+7EbBuKycVsWC0CG/Wx2GHerCy7d/MdbcrT+Ux/scrRcuRvoL4wTSYIG4povGOX8xYmxBntYfZOu6KY1wAGJESF8QUgCS5V0Z8NIEZe0oA8IsYzHwFmdpI73IjO0ZeW7VWZGZ7wYPRqCJ5QRJRr9bz0fTB87+GYC1o04E7UbKq8emE0u94lFMauj2Y+L1UWpPKWc6OL4kJhOjelFPOTtYrH9EdjP37gB0zUdvGaWDYymflWR5wdjERT5+W5JiQtWhwp2ojFk0MRi5IXAplnZgyY1SoA8WbWAyCCWBHAN3VZ+LMquneTIGEb+g3/j3NIwcQeZ47pHZHQrZShtrZbZsi4JBj1dZGk0uejUiM94WgHfm28mwwjEIq2rcNWs2AsphgsnU/kQ== root@39b0b299c969
