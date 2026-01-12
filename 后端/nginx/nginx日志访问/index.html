@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nginx 日志面板</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Consolas, monospace;
+            background: #1e1e1e;
+            color: #ddd;
+        }
+
+        #topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #111;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        select,
+        button {
+            background: #222;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 5px 8px;
+            font-size: 13px;
+        }
+
+        #log {
+            margin-top: 55px;
+            padding: 10px;
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
+        .line-error {
+            color: #ff5c5c
+        }
+
+        .line-warn {
+            color: #ffb86c
+        }
+
+        .line-info {
+            color: #9cdcfe
+        }
+
+        #paused {
+            color: #ff9800;
+            font-size: 12px;
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="topbar">
+        <span>日志文件:</span>
+        <select id="fileSelect"></select>
+        <button onclick="clearLog()">清屏</button>
+        <span id="paused">自动刷新已暂停</span>
+    </div>
+
+    <div id="log"></div>
+
+    <script>
+        const LOG_API = "/nginx-files/";
+        const STORE_KEY = "nginx-log-selected";
+
+        let currentFile = "";
+        let lastSize = 0;
+        let autoRefresh = true;
+        let pauseTimer = null;
+
+        const logEl = document.getElementById("log");
+        const fileSelect = document.getElementById("fileSelect");
+        const pausedEl = document.getElementById("paused");
+
+        /* 读取日志文件列表 */
+        async function loadFileList() {
+            try {
+                const res = await fetch(LOG_API);
+                if (!res.ok) return;
+
+                const list = await res.json();
+
+                const files = list
+                    .filter(f => f.type === "file" && !f.name.endsWith(".gz"))
+                    .map(f => f.name)
+                    .sort((a, b) => b.localeCompare(a));
+
+                if (!files.length) return;
+
+                const saved = localStorage.getItem(STORE_KEY);
+
+                let nextFile = currentFile;
+
+                if (!nextFile) {
+                    if (saved && files.includes(saved)) {
+                        nextFile = saved;
+                    } else if (files.includes("access.log")) {
+                        nextFile = "access.log";
+                    } else {
+                        nextFile = files[0];
+                    }
+                }
+
+                fileSelect.innerHTML = "";
+
+                files.forEach(f => {
+                    const opt = document.createElement("option");
+                    opt.value = f;
+                    opt.textContent = f;
+                    fileSelect.appendChild(opt);
+                });
+
+                if (nextFile !== currentFile) {
+                    currentFile = nextFile;
+                    lastSize = 0;
+                    logEl.innerHTML = "";
+                }
+
+                fileSelect.value = currentFile;
+
+            } catch (e) {
+                console.error("loadFileList failed", e);
+            }
+        }
+
+        /* 读取日志内容 */
+        async function loadLog() {
+            if (!autoRefresh || !currentFile) return;
+
+            try {
+                const res = await fetch(LOG_API + currentFile + "?t=" + Date.now());
+                if (!res.ok) return;
+
+                const text = await res.text();
+
+                if (text.length < lastSize) {
+                    lastSize = 0;
+                    logEl.innerHTML = "";
+                }
+
+                const chunk = text.slice(lastSize);
+                renderLines(chunk);
+
+                lastSize = text.length;
+                window.scrollTo(0, document.body.scrollHeight);
+
+            } catch (e) {
+                console.error("loadLog failed", e);
+            }
+        }
+
+        function renderLines(text) {
+            text.split("\n").forEach(line => {
+                if (!line.trim()) return;
+
+                let div = document.createElement("div");
+
+                try {
+                    const obj = JSON.parse(line);
+                    const level = (obj.level || "info").toLowerCase();
+                    div.className = "line-" + (level === "error" ? "error" : level === "warn" ? "warn" : "info");
+                    div.textContent = `[${obj.context || "-"}] ${obj.message || line}`;
+                } catch {
+                    if (line.includes("[error]")) div.className = "line-error";
+                    else if (line.includes("[warn]")) div.className = "line-warn";
+                    else div.className = "line-info";
+
+                    div.textContent = line;
+                }
+
+                logEl.appendChild(div);
+            });
+        }
+
+        fileSelect.onchange = () => {
+            currentFile = fileSelect.value;
+            localStorage.setItem(STORE_KEY, currentFile);
+
+            lastSize = 0;
+            logEl.innerHTML = "";
+            loadLog();
+        };
+
+        function clearLog() {
+            logEl.innerHTML = "";
+        }
+
+        window.addEventListener("scroll", () => {
+            const bottom = document.body.scrollHeight - window.innerHeight;
+            if (window.scrollY < bottom - 50) {
+                pauseAuto();
+            }
+        });
+
+        function pauseAuto() {
+            if (!autoRefresh) return;
+            autoRefresh = false;
+            pausedEl.style.display = "inline";
+
+            clearTimeout(pauseTimer);
+            pauseTimer = setTimeout(() => {
+                autoRefresh = true;
+                pausedEl.style.display = "none";
+            }, 30000);
+        }
+
+        /* 定时任务 */
+        setInterval(loadFileList, 5000);
+        setInterval(loadLog, 1000);
+
+        loadFileList();
+    </script>
+
+</body>
+
+</html>

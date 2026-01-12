@@ -9,24 +9,41 @@
 使用编辑器创建文件：
 
 ```bash
-sudo nano /etc/nginx/sites-available/logs
+sudo nano /etc/nginx/sites-available/log-panel.conf
 ```
 
-## 2. 站点配置（可直接粘贴）
+## 2. 在nginx日志目录下创建index.html文件 
+[index.html]("./index.html")
+
+## 3. 站点配置（可直接粘贴）
 
 ```nginx
 server {
-    listen 9943;
+    listen 9797;
     server_name _;
 
-    location /logs/ {
+    # 面板页面
+    location /nginx/ {
         alias /var/log/nginx/;
-        autoindex on;
-        autoindex_exact_size off;
-        autoindex_localtime on;
-
-        default_type text/plain;
+        index index.html;
     }
+
+    # 日志 API（强制 JSON 目录索引）
+    location /nginx-files/ {
+        alias /var/log/nginx/;
+
+        # 禁用所有索引文件
+        index nothing_here;  # 设置一个不存在的索引文件
+
+        autoindex on;
+        autoindex_format json;
+
+        # 或者更彻底的方法：直接返回目录列表
+        try_files $uri $uri/ =404;
+    }
+
+    error_log /var/log/nginx/log-panel-error.log;
+    access_log /var/log/nginx/log-panel-access.log;
 }
 ```
 
@@ -36,43 +53,27 @@ server {
 - Enter
 - Ctrl + X
 
-## 3. 启用站点（建立软链接）
+## 4. 启用站点（建立软链接）
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/logs /etc/nginx/sites-enabled/logs
+sudo ln -s /etc/nginx/sites-available/log-panel.conf /etc/nginx/sites-enabled/log-panel.conf
 ```
 
 如果提示已存在软链接：
 
 ```bash
-sudo rm /etc/nginx/sites-enabled/logs
-sudo ln -s /etc/nginx/sites-available/logs /etc/nginx/sites-enabled/logs
+sudo rm /etc/nginx/sites-enabled/log-panel.conf
+sudo ln -s /etc/nginx/sites-available/log-panel.conf /etc/nginx/sites-enabled/log-panel.conf
 ```
 
-## 4.（可选）禁用默认站点，避免端口冲突
+## 5.（可选）禁用默认站点，避免端口冲突
 
 ```bash
 sudo rm /etc/nginx/sites-enabled/default
 ```
 
-说明：如果你仍在使用 80 端口，可以跳过此步骤。本配置监听 9943，通常不会与 80 冲突。
-
-## 5. 测试配置
-
 ```bash
 sudo nginx -t
-```
-
-期望输出：
-
-```
-nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-nginx: configuration file /etc/nginx/nginx.conf test is successful
-```
-
-## 6. 重载或启动 Nginx
-
-```bash
 sudo systemctl reload nginx
 # 如果 nginx 未运行：
 sudo systemctl start nginx
@@ -83,9 +84,8 @@ sudo systemctl start nginx
 在浏览器或 curl 中访问：
 
 ```
-http://43.139.236.50:9943/logs/access.log
-http://43.139.236.50:9943/logs/error.log
-http://43.139.236.50:9943/logs/
+http://43.139.236.50:9943/nginx
+http://43.139.236.50:9797/nginx-files/ 访问的是日志文件列表
 ```
 
 示例：
