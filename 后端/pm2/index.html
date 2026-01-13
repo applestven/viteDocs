@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nginx 日志面板</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Consolas, monospace;
+            background: #1e1e1e;
+            color: #ddd;
+        }
+
+        #topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: #111;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        select,
+        button {
+            background: #222;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 5px 8px;
+            font-size: 13px;
+        }
+
+        #log {
+            margin-top: 55px;
+            padding: 10px;
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
+        .line-error {
+            color: #ff5c5c
+        }
+
+        .line-warn {
+            color: #ffb86c
+        }
+
+        .line-info {
+            color: #9cdcfe
+        }
+
+        #paused {
+            color: #ff9800;
+            font-size: 12px;
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="topbar">
+        <span>日志文件:</span>
+        <select id="fileSelect"></select>
+        <button onclick="clearLog()">清屏</button>
+        <span id="paused">自动刷新已暂停</span>
+    </div>
+
+    <div id="log"></div>
+
+    <script>
+        const LOG_API = "/logs/pm2/nginx-files/";
+        const STORE_KEY = "pm2-log-selected";
+        const PAGE_SIZE = 300; // 每次加载行数
+
+        let currentFile = "";
+        let allLines = []; // 保存整个文件分行后的内容
+        let startLine = 0; // 当前显示的起始行
+        let autoRefresh = true;
+
+        const logEl = document.getElementById("log");
+        const fileSelect = document.getElementById("fileSelect");
+
+        async function loadFileList() {
+            try {
+                const res = await fetch(LOG_API);
+                if (!res.ok) return;
+                const list = await res.json();
+
+                const files = list
+                    .filter(f => f.type === "file" && !f.name.endsWith(".gz"))
+                    .map(f => f.name)
+                    .sort((a, b) => b.localeCompare(a));
+
+                if (!files.length) return;
+
+                const saved = localStorage.getItem(STORE_KEY);
+                let nextFile = currentFile || (saved && files.includes(saved) ? saved : files[0]);
+
+                fileSelect.innerHTML = "";
+                files.forEach(f => {
+                    const opt = document.createElement("option");
+                    opt.value = f;
+                    opt.textContent = f;
+                    fileSelect.appendChild(opt);
+                });
+
+                if (nextFile !== currentFile) {
+                    currentFile = nextFile;
+                    await loadLog(); // 加载最新内容
+                }
+
+                fileSelect.value = currentFile;
+
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadLog() {
+            if (!currentFile) return;
+
+            try {
+                const res = await fetch(LOG_API + encodeURIComponent(currentFile) + "?t=" + Date.now());
+                if (!res.ok) return;
+
+                const text = await res.text();
+                allLines = text.split("\n").filter(l => l.trim());
+                startLine = Math.max(0, allLines.length - PAGE_SIZE);
+
+                renderLines(allLines.slice(startLine)); // 只显示最新 PAGE_SIZE 行
+                scrollToBottom();
+            } catch (e) { console.error(e); }
+        }
+
+        function prependLines(lines) {
+            lines.forEach(line => {
+                let div = document.createElement("div");
+                if (line.includes("[error]")) div.className = "line-error";
+                else if (line.includes("[warn]")) div.className = "line-warn";
+                else div.className = "line-info";
+                div.textContent = line;
+                logEl.prepend(div);
+            });
+        }
+
+        function renderLines(lines) {
+            logEl.innerHTML = "";
+            prependLines(lines);
+        }
+
+        function scrollToBottom() {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        // 向上滚动加载更多
+        window.addEventListener("scroll", () => {
+            if (window.scrollY === 0 && startLine > 0) {
+                const prevStart = Math.max(0, startLine - PAGE_SIZE);
+                const linesToAdd = allLines.slice(prevStart, startLine);
+                startLine = prevStart;
+                prependLines(linesToAdd);
+            }
+        });
+
+        fileSelect.onchange = async () => {
+            currentFile = fileSelect.value;
+            localStorage.setItem(STORE_KEY, currentFile);
+            allLines = [];
+            startLine = 0;
+            await loadLog();
+        }
+
+        function clearLog() {
+            logEl.innerHTML = "";
+            allLines = [];
+            startLine = 0;
+        }
+
+        // 自动刷新最新行
+        setInterval(() => {
+            if (!autoRefresh || !currentFile) return;
+            const newLines = allLines.slice(-PAGE_SIZE); // 最新行
+            const lastDivs = logEl.querySelectorAll("div");
+            if (lastDivs.length) {
+                const lastText = lastDivs[lastDivs.length - 1].textContent;
+                const newLast = newLines[newLines.length - 1];
+                if (lastText !== newLast) {
+                    renderLines(newLines);
+                    scrollToBottom();
+                }
+            } else {
+                renderLines(newLines);
+                scrollToBottom();
+            }
+        }, 5000);
+
+        loadFileList();
+    </script>
+
+
+</body>
+
+</html>
