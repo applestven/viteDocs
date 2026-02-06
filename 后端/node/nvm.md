@@ -42,15 +42,17 @@ wget https://github.com/nvm-sh/nvm/archive/refs/tags/v0.38.0.tar.gz
 
 mkdir -p /root/.nvm
 
-tar -zxvf v0.38.0.tar.gz -C /home/apple/soft
+mkdir -p ~/soft
 
-vim ~/.bashrc 
+tar -zxvf v0.38.0.tar.gz -C ~/soft
+
+nano ~/.bashrc 
 ```
 
 1. 插入文件.bashrc 
 
 ```bash
-export NVM_DIR="/home/apple/soft"
+export NVM_DIR="~/soft"
 [ -s "$NVM_DIR/nvm-0.38.0/nvm.sh" ] && \. "$NVM_DIR/nvm-0.38.0/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/nvm-0.38.0/bash_completion" ] && \. "$NVM_DIR/nvm-0.38.0/bash_completion"  # This loads nvm 
 ```

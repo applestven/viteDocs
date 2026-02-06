@@ -33,22 +33,43 @@ sudo nano /etc/systemd/system/docker.service.d/http-proxy.conf
 ```
 
 - 输入以下内容（替换 192.168.8.105:7890 为你的代理地址）：
-
 ```bash
+
 [Service]
-Environment="HTTP_PROXY=http://192.168.8.105:7890"
-Environment="HTTPS_PROXY=http://192.168.8.105:7890"
+Environment="HTTP_PROXY=http://127.0.0.1:7890"
+Environment="HTTPS_PROXY=http://127.0.0.1:7890"
 Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.example.com"  # 可选，排除某些地址
 
 ```
+
+
+
 
 - 保存后执行 
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 ``` 
+## 使用环境变量二套 
 
-2. 验证 Docker 代理配置
+
+```bash
+[Service]
+Environment=HTTP_PROXY=http://127.0.0.1:7890
+Environment=HTTPS_PROXY=http://127.0.0.1:7890
+Environment=NO_PROXY=localhost,127.0.0.1
+```
+
+
+- 保存后执行 
+```bash
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+``` 
+
+1. 验证 Docker 代理配置
 
 - 检查 Docker 服务是否加载了代理变量
 
