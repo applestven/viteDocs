@@ -61,14 +61,6 @@ Environment=NO_PROXY=localhost,127.0.0.1
 ```
 
 
-- 保存后执行 
-```bash
-sudo systemctl daemon-reexec
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-
-``` 
-
 1. 验证 Docker 代理配置
 
 - 检查 Docker 服务是否加载了代理变量
