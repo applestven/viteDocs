@@ -1,18 +1,29 @@
-## 搭建一个可以给软件提供读取视频内容的服务
-
-### 收集生产资料 
-1. 使用国内服务器作为网络通信 
-2. 使用本地服务器进行whisper文字识别
-3. 服务入口 主服务器 - 内网调度服务器(零刻本地服务器) - 内网服务器 （公司 ）
-
-
-### 使用国内服务器搭建zerotier 
-
-[搭建完成了](./搭建的服务集合.md#zerotier)
 
 
 
+## open claw的搭建
 
-## 完成video项目 使其成为一个独立的项目 
+https://zhuanlan.zhihu.com/p/2005987429828534912 查找资料
+
+官网：https://openclaw.ai/
+官方文档：https://docs.openclaw.ai/zh-CN/start/wizard
+GitHub：https://github.com/openclaw/openclaw
+中文社区：https://clawcn.net/install/
+技能市场：https://openclaw.ai/ → Skills & Plugins
+Discord 社区：https://openclaw.ai/ → Discord
+Slack API 控制台：https://api.slack.com/apps
+
+目的 ： 定期推送项目分析 项目理解 
 
 
+## 网赚社区的信息收集
+
+收集网络信息 整理成自己可以用的知识库
+
+
+## 将5800h创建成可视转文的服务器  可能会吵 需要测试
+
+项目的前提
+
+
+## 打造一个收集视频信息的工作流  分析文件夹文件的能力 用来助力收集信息 
