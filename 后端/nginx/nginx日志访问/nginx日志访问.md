@@ -13,7 +13,7 @@ sudo nano /etc/nginx/sites-available/log-panel.conf
 ```
 
 ## 2. 在nginx日志目录下创建index.html文件 
-[index文件示例](./index.md)
+[index文件示例](./index.html)
 
 ## 3. 站点配置（可直接粘贴）
 
