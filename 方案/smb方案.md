@@ -1,5 +1,4 @@
-
-
+# 创建samba
 ```bash
 sudo apt update && sudo apt install -y samba && sudo bash -c 'echo -e "[share]\n   path = /home/apple/nextcloud/share\n   browsable = yes\n   read only = no\n   guest ok = yes\n" >> /etc/samba/smb.conf' && sudo systemctl restart smbd
 
@@ -23,8 +22,8 @@ guest ok = yes → 不需要账号即可访问
 
 systemctl restart smbd → 重启 Samba 服务使配置生效。
 
-✅ 之后在 Windows 或 Mac 上可以直接通过 \\<ubuntu-ip>\share 访问。
-
+✅ 之后在 Windows 或 Mac 上可以直接通过 `\\<ubuntu-ip>\share` 访问。
+ 
 
 ## 配置文件
 sudo nano /etc/samba/smb.conf
@@ -50,3 +49,5 @@ sudo systemctl restart smbd nmbd
 sudo smbpasswd -a apple
 
 sudo systemctl restart smbd nmbd
+
+```
