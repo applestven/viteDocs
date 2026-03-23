@@ -36,7 +36,7 @@ sudo apt install glances
 ```
 ## 基础使用 
 1. 启动 Glances
-```bahs
+```bash
 glances
 
 ```

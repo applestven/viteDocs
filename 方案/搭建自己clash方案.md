@@ -1,7 +1,7 @@
 
 ## 搭建自己的服务网络 
 
-``` pgsql
+``` bash
 [每台服务器]
   ⬇️
 运行 install-singbox.sh ⬅️ 自动输出 UUID、Reality 公钥等参数

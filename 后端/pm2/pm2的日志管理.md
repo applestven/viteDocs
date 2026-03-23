@@ -35,7 +35,7 @@ C:\Users\<用户名>\.pm2\logs\
 ## pm2日志文件的转发
 
 1. nginx 配置 
-``` conf
+``` bash
 server {
     listen 9797;
     server_name localhost;

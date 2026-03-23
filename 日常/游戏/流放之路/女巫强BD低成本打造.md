@@ -44,7 +44,7 @@
 
 ### 光環與功能技能：
 
-``` pgsql
+``` bash
 憎恨（Hatred）+ 慷慨輔助（Generosity Support） ← 提升召喚物冰冷傷害  
 褻瀆（Desecrate）+ 更快施放輔助（Faster Casting Support） ← 產生屍體  
 召回（Convocation） ← 召喚物瞬間拉回身邊
