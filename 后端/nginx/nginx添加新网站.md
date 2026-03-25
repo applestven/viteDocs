@@ -46,3 +46,15 @@ sudo systemctl reload nginx
 ```
 
 ## 测试访问 
+
+## nginx日志访问命令
+
+
+# 实时监控访问日志（最常用）
+tail -f /var/log/nginx/access.log
+
+# 查看最后100行
+tail -n 100 /var/log/nginx/access.log
+
+# 查看全部内容
+cat /var/log/nginx/access.log
