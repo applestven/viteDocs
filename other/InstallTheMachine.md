@@ -87,7 +87,7 @@ alias adb='/mnt/c/tool/android-develpe-SDK/platform-tools/adb.exe'
 ```
 重新打开终端或者执行 source ~/.bashrc
 
-如果adb识别不到设备，可以使用adb kill-server杀一下server先
+如果adb识别不到设备，可以使用adb kill-server  杀一下server先  adb start-server
 
 
 

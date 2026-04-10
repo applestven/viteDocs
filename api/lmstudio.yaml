@@ -1,0 +1,168 @@
+openapi: 3.0.3
+info:
+  title: LM Studio Local API
+  description: OpenAI-compatible API served by LM Studio
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:1234/v1
+
+paths:
+  /models:
+    get:
+      summary: 获取本地已加载模型列表
+      responses:
+        "200":
+          description: 模型列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        object:
+                          type: string
+                        owned_by:
+                          type: string
+
+  /chat/completions:
+    post:
+      summary: 聊天对话（最常用）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - model
+                - messages
+              properties:
+                model:
+                  type: string
+                  example: local-model
+                messages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                        enum: [system, user, assistant]
+                      content:
+                        type: string
+                temperature:
+                  type: number
+                  example: 0.7
+                max_tokens:
+                  type: integer
+                  example: 512
+                stream:
+                  type: boolean
+                  example: false
+      responses:
+        "200":
+          description: 聊天响应
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  object:
+                    type: string
+                  choices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        index:
+                          type: integer
+                        message:
+                          type: object
+                          properties:
+                            role:
+                              type: string
+                            content:
+                              type: string
+                        finish_reason:
+                          type: string
+
+  /completions:
+    post:
+      summary: 文本补全（非聊天）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - model
+                - prompt
+              properties:
+                model:
+                  type: string
+                prompt:
+                  type: string
+                temperature:
+                  type: number
+                max_tokens:
+                  type: integer
+      responses:
+        "200":
+          description: 补全结果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  choices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        text:
+                          type: string
+
+  /embeddings:
+    post:
+      summary: 获取文本向量
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - model
+                - input
+              properties:
+                model:
+                  type: string
+                input:
+                  type: string
+      responses:
+        "200":
+          description: 向量结果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        embedding:
+                          type: array
+                          items:
+                            type: number
