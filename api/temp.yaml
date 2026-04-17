@@ -1,0 +1,226 @@
+# 获取标签集合
+
+## OpenAPI Specification
+
+openapi: 3.0.1
+info:
+  title: ""
+  description: ""
+  version: 1.0.0
+paths:
+  /Api/Cms/Order/GetLabelList:
+    post:
+      summary: 获取标签集合
+      deprecated: false
+      description: 传入客户单号集合，获取多个单号的标签信息，返回标签等集合数据
+      tags:
+        - Api 项目
+        - CmsOrder
+      parameters:
+        - name: appKey
+          in: header
+          description: 系统申请唯一认证Key
+          required: true
+          example: "{{appKey}}"
+          schema:
+            type: string
+        - name: appToken
+          in: header
+          description: 系统申请唯一认证Token
+          required: true
+          example: "{{appToken}}"
+          schema:
+            type: string
+        - name: customerCode
+          in: header
+          description: 客户管理基础数据里面的"客户编码"字段
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/Mokk.CTT.Application.Contracts.Cms.OrderNosDto
+            examples: {}
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: 结果码(为200则表示请求成功)
+                    format: int32
+                  message:
+                    type: string
+                    description: 结果消息
+                    nullable: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          description: 标签地址 复制出去自己下载
+                          nullable: true
+                        orderState:
+                          $ref: >-
+                            #/components/schemas/Mokk.CTT.Domain.Shared.Enums.CmsOrderStateEnum
+                        channelOrderNo:
+                          type: string
+                          nullable: true
+                        customerOrderNo:
+                          type: string
+                          nullable: true
+                        orderVolumes:
+                          type: array
+                          items:
+                            $ref: >-
+                              #/components/schemas/Mokk.CTT.Application.Contracts.Order.OrderVolume3
+                          nullable: true
+                        fees:
+                          type: array
+                          items:
+                            $ref: >-
+                              #/components/schemas/Mokk.CTT.Domain.Entities.FeeReceivableApiDto
+                          nullable: true
+                        message:
+                          type: string
+                          nullable: true
+                      x-apifox-refs: {}
+                      x-apifox-orders:
+                        - url
+                        - orderState
+                        - channelOrderNo
+                        - customerOrderNo
+                        - orderVolumes
+                        - fees
+                        - message
+                      x-apifox-ignore-properties: []
+                    description: 结果数据
+                    nullable: true
+                x-apifox-refs: {}
+                x-apifox-orders:
+                  - code
+                  - message
+                  - data
+                x-apifox-ignore-properties: []
+          headers: {}
+          x-apifox-name: 成功
+      security: []
+      x-apifox-folder: Api 项目
+      x-apifox-status: released
+      x-run-in-apifox: https://app.apifox.com/web/project/4115604/apis/api-356043466-run
+components:
+  schemas:
+    Mokk.CTT.Application.Contracts.Cms.OrderNosDto:
+      type: object
+      properties:
+        orderNos:
+          type: array
+          items:
+            type: string
+          description: 运单号/客户单号/跟踪号
+          nullable: true
+      additionalProperties: false
+      x-apifox-orders:
+        - orderNos
+      x-apifox-ignore-properties: []
+      x-apifox-folder: ""
+    Mokk.CTT.Domain.Entities.FeeReceivableApiDto:
+      type: object
+      properties:
+        feeName:
+          type: string
+          description: 费用名称
+          nullable: true
+        amount:
+          type: number
+          description: 金额
+          format: double
+        remark:
+          maxLength: 200
+          type: string
+          description: 备注
+          nullable: true
+      additionalProperties: false
+      description: 应收费用Dto
+      x-apifox-orders:
+        - feeName
+        - amount
+        - remark
+      x-apifox-ignore-properties: []
+      x-apifox-folder: ""
+    Mokk.CTT.Application.Contracts.Order.OrderVolume3:
+      type: object
+      properties:
+        boxNo:
+          type: string
+          description: 箱号,默认从001开始递增
+          nullable: true
+        childChannelOrderNo:
+          type: string
+          description: 子跟踪号
+          nullable: true
+        isMasterTracking:
+          type: boolean
+          description: 是否主跟踪号,0-否，1-是
+        weight:
+          type: number
+          description: 重量
+          format: double
+        length:
+          type: number
+          description: 长
+          format: double
+        width:
+          type: number
+          description: 宽
+          format: double
+        height:
+          type: number
+          description: 高
+          format: double
+      additionalProperties: false
+      x-apifox-orders:
+        - boxNo
+        - childChannelOrderNo
+        - isMasterTracking
+        - weight
+        - length
+        - width
+        - height
+      x-apifox-ignore-properties: []
+      x-apifox-folder: ""
+    Mokk.CTT.Domain.Shared.Enums.CmsOrderStateEnum:
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 10
+        - 20
+        - -1
+      type: integer
+      description: "<br><div>\r\n0：Pending，待生成；<br/>\r\n1：Generated，已生成；<br/>\r\n2：Refunding，退款中；<br/>\r\n3：Problem，问题件；<br/>\r\n4：Refunded，已退款；<br/>\r\n5：Deleted，已删除；<br/>\r\n6：NoRefunded，拒绝退款；<br/>\r\n10：Shipped，已发货；<br/>\r\n20：InTransit，运输中；<br/>\r\n-1：Draft，草稿；</div>"
+      format: int32
+      x-apifox-folder: ""
+  securitySchemes:
+    oauth2:
+      type: apikey
+      description: JWT授权(数据将在请求头中进行传递)直接在下面框中输入Bearer {token}(注意两者之间是一个空格)
+      name: Authorization
+      in: header
+servers:
+  - url: https://sucmsapi.mocoo16.com
+    description: 大客户-Pro
+security: []
