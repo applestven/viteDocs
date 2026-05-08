@@ -56,6 +56,12 @@ export NVM_DIR="~/soft"
 [ -s "$NVM_DIR/nvm-0.38.0/nvm.sh" ] && \. "$NVM_DIR/nvm-0.38.0/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/nvm-0.38.0/bash_completion" ] && \. "$NVM_DIR/nvm-0.38.0/bash_completion"  # This loads nvm 
 ```
+OR
+```bash
+export NVM_DIR="$HOME/soft"
+[ -s "$NVM_DIR/nvm-0.38.0/nvm.sh" ] && \. "$NVM_DIR/nvm-0.38.0/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm-0.38.0/bash_completion" ] && \. "$NVM_DIR/nvm-0.38.0/bash_completion"  # This loads nvm
+```
 
 1. 使用配置
 ```bash

@@ -24,6 +24,21 @@ server {
     }
 }
 
+9191 转 7001
+
+sudo nano /etc/nginx/sites-available/9191-7001.conf
+
+server {
+    listen 7001;
+    
+    location / {
+        proxy_pass http://127.0.0.1:9191;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
 ```
 
 ## 启用站点
