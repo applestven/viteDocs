@@ -64,6 +64,50 @@ python 工具/script/telegramCshPick.py --api http://127.0.0.1:9090
 日志：`result/tg_csh_时间戳.log`  
 Top5：`result/top5/csh_时间戳.txt`
 
+## telegramNinjaPick.py NinjaDesktop 专用（Clash Meta External Controller）
+
+自动识别本机 [NinjaDesktop](https://github.com/kachetong1314/ninja)（`ninja-mihomo`）：
+
+- WebUI（默认 `9190`）检测并 **自动 start 内核**（若未开）
+- External Controller（默认 `127.0.0.1:9799` + `controller_secret`）
+- mixed-port（默认 **7897**；系统代理未开也可测）
+- 支持无切换并行 delay，体验接近 Clash
+
+```bash
+# 推荐：软件已打开即可（脚本会按需启动内核）
+python 工具/script/telegramNinjaPick.py
+
+# 港日新 / PRO 专线
+python 工具/script/telegramNinjaPick.py --filter "香港|日本|新加坡|PRO"
+
+# 指定策略组
+python 工具/script/telegramNinjaPick.py --group "🚀 节点选择"
+python 工具/script/telegramNinjaPick.py --group "📲 电报信息"
+
+# 精测更少
+python 工具/script/telegramNinjaPick.py --preflight-top 5 --duration 4
+```
+
+日志：`result/tg_ninja_时间戳.log`  
+Top5：`result/top5/ninja_时间戳.txt`
+
+## telegramEdgenovaPick.py EdgeNova 专用（同超实惠 FlClash IPC）
+
+自动识别本机 EdgeNova（`edgenova` / `edgenovaCore`，UnrivaledSpeed 同系）：
+
+- 常驻 IPC 桥：`127.0.0.1:19693`（与超实惠 `19692` 互不占用）
+- mixed-port（常见 **7892**）
+- 预筛：切换式 `generate_204`；精测 TG + 下载
+
+```bash
+python 工具/script/telegramEdgenovaPick.py
+python 工具/script/telegramEdgenovaPick.py --filter "香港|日本|新加坡"
+python 工具/script/telegramEdgenovaPick.py --preflight-top 5 --duration 4
+```
+
+日志：`result/tg_edgenova_时间戳.log`  
+Top5：`result/top5/edgenova_时间戳.txt`
+
 ## latency_test.sh 测试各个服务器到本机的延迟 给出延迟排行前三的服务器
 
 

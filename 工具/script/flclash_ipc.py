@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-超实惠加速 / UnrivaledSpeed IPC 桥接。
+FlClash / UnrivaledSpeed 系客户端 IPC 桥接（超实惠 / EdgeNova 等）。
 
 协议: 换行分隔 JSON（NDJSON），与原版 FlClash 二进制 length-frame 不同。
-在 GUI 与内核之间插入桥接，注入 getProxies / changeProxy / asyncTestDelay。
+在 GUI 与内核之间插入桥接，注入 getProxies / changeProxy；并提供常驻 Agent HTTP。
 """
 
 from __future__ import annotations
@@ -19,14 +19,69 @@ import time
 import uuid
 import urllib.parse
 from concurrent.futures import Future
+from dataclasses import dataclass
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Optional
 
-# 常驻桥对外控制口（Clash 兼容子集），测速脚本复用它，避免每次拆核心
 AGENT_HOST = "127.0.0.1"
-AGENT_PORT = 19692
-AGENT_BASE = f"http://{AGENT_HOST}:{AGENT_PORT}"
+
+
+@dataclass(frozen=True)
+class BrandProfile:
+    """同一套 UnrivaledSpeed/FlClash 魔改壳的品牌差异。"""
+
+    id: str
+    display_name: str
+    gui_exe: str
+    core_exe: str
+    appdata_parts: tuple[str, ...]
+    agent_port: int
+    install_names: tuple[str, ...] = ()
+    skip_ports: tuple[int, ...] = (7890, 7891, 7892, 7897, 7898, 7899, 9090, 53)
+
+    @property
+    def agent_base(self) -> str:
+        return f"http://{AGENT_HOST}:{self.agent_port}"
+
+    def home_dir(self) -> Path:
+        p = Path(os.environ.get("APPDATA", ""))
+        for part in self.appdata_parts:
+            p = p / part
+        return p
+
+
+CHAOSHIHUI = BrandProfile(
+    id="chaoshihui",
+    display_name="超实惠加速",
+    gui_exe="chaoshihui.exe",
+    core_exe="chaoshihuiCore.exe",
+    appdata_parts=("chaoshihui", "chaoshihui"),
+    agent_port=19692,
+    install_names=("chaoshihui",),
+)
+
+EDGENOVA = BrandProfile(
+    id="edgenova",
+    display_name="EdgeNova",
+    gui_exe="edgenova.exe",
+    core_exe="edgenovaCore.exe",
+    appdata_parts=("edgenova", "edgenova"),
+    agent_port=19693,
+    install_names=("edgenova",),
+)
+
+BRANDS = {CHAOSHIHUI.id: CHAOSHIHUI, EDGENOVA.id: EDGENOVA}
+
+# 兼容旧代码默认品牌
+AGENT_PORT = CHAOSHIHUI.agent_port
+AGENT_BASE = CHAOSHIHUI.agent_base
+
+
+def get_brand(brand_id: Optional[str] = None) -> BrandProfile:
+    if not brand_id:
+        brand_id = os.environ.get("FLCLASH_BRAND") or CHAOSHIHUI.id
+    return BRANDS.get(brand_id, CHAOSHIHUI)
 
 
 def read_line(sock: socket.socket) -> bytes:
@@ -49,10 +104,11 @@ def write_line(sock: socket.socket, data: bytes) -> None:
     sock.sendall(data)
 
 
-def find_gui_control_port() -> Optional[int]:
+def find_gui_control_port(brand: Optional[BrandProfile] = None) -> Optional[int]:
+    brand = brand or get_brand()
     try:
         task = subprocess.check_output(
-            ["tasklist", "/FI", "IMAGENAME eq chaoshihui.exe", "/FO", "CSV", "/NH"],
+            ["tasklist", "/FI", f"IMAGENAME eq {brand.gui_exe}", "/FO", "CSV", "/NH"],
             encoding="utf-8",
             errors="ignore",
         )
@@ -70,6 +126,7 @@ def find_gui_control_port() -> Optional[int]:
     except Exception:
         return None
     candidates = []
+    skip = set(brand.skip_ports)
     for line in out.splitlines():
         if "LISTENING" not in line.upper():
             continue
@@ -83,20 +140,21 @@ def find_gui_control_port() -> Optional[int]:
             port = int(local.rsplit(":", 1)[-1])
         except ValueError:
             continue
-        if port in (7890, 7891, 7892, 7897, 7898, 7899, 9090, 53):
+        if port in skip:
             continue
         candidates.append(port)
     return max(candidates) if candidates else None
 
 
-def find_core_control_port() -> Optional[int]:
+def find_core_control_port(brand: Optional[BrandProfile] = None) -> Optional[int]:
+    brand = brand or get_brand()
     try:
         out = subprocess.check_output(
             [
                 "powershell",
                 "-NoProfile",
                 "-Command",
-                "(Get-CimInstance Win32_Process -Filter \"Name='chaoshihuiCore.exe'\").CommandLine",
+                f"(Get-CimInstance Win32_Process -Filter \"Name='{brand.core_exe}'\").CommandLine",
             ],
             encoding="utf-8",
             errors="ignore",
@@ -107,12 +165,13 @@ def find_core_control_port() -> Optional[int]:
         for token in reversed(out.replace('"', " ").split()):
             if token.isdigit() and 1024 <= int(token) <= 65535:
                 return int(token)
-    return find_gui_control_port()
+    return find_gui_control_port(brand)
 
 
-def kill_core() -> None:
+def kill_core(brand: Optional[BrandProfile] = None) -> None:
+    brand = brand or get_brand()
     subprocess.run(
-        ["taskkill", "/F", "/IM", "chaoshihuiCore.exe"],
+        ["taskkill", "/F", "/IM", brand.core_exe],
         capture_output=True,
         text=True,
         encoding="utf-8",
@@ -122,7 +181,8 @@ def kill_core() -> None:
 
 
 class FlClashBridge:
-    def __init__(self):
+    def __init__(self, brand: Optional[BrandProfile] = None):
+        self.brand = brand or get_brand()
         self.gui_sock: Optional[socket.socket] = None
         self.core_sock: Optional[socket.socket] = None
         self.core_proc: Optional[subprocess.Popen] = None
@@ -136,27 +196,28 @@ class FlClashBridge:
         self._seen_methods: set[str] = set()
 
     def start(self, install: Path, gui_port: Optional[int] = None, log=print) -> None:
+        brand = self.brand
         install = Path(install)
         self.install = install
-        core_exe = install / "chaoshihuiCore.exe"
+        core_exe = install / brand.core_exe
         if not core_exe.is_file():
             raise FileNotFoundError(core_exe)
 
-        self.gui_port = gui_port or find_core_control_port()
+        self.gui_port = gui_port or find_core_control_port(brand)
         if not self.gui_port:
-            raise RuntimeError("无法定位 GUI 控制端口（请确认超实惠加速已打开）")
+            raise RuntimeError(f"无法定位 GUI 控制端口（请确认{brand.display_name}已打开）")
 
         log(f"  IPC 控制口: GUI 监听 {self.gui_port}（NDJSON 协议）")
         log("  接入 IPC 桥接（短暂重拉内核）...")
 
         for _ in range(4):
-            kill_core()
+            kill_core(brand)
             time.sleep(0.2)
 
         deadline = time.time() + 8
         last_err = None
         while time.time() < deadline:
-            kill_core()
+            kill_core(brand)
             try:
                 self.gui_sock = socket.create_connection(("127.0.0.1", self.gui_port), timeout=1.5)
                 break
@@ -183,8 +244,8 @@ class FlClashBridge:
         lst.close()
 
         self._stop.clear()
-        t1 = threading.Thread(target=self._relay_gui_to_core, name="csh-g2c", daemon=True)
-        t2 = threading.Thread(target=self._relay_core_to_gui, name="csh-c2g", daemon=True)
+        t1 = threading.Thread(target=self._relay_gui_to_core, name=f"{brand.id}-g2c", daemon=True)
+        t2 = threading.Thread(target=self._relay_core_to_gui, name=f"{brand.id}-c2g", daemon=True)
         t1.start()
         t2.start()
         self._threads = [t1, t2]
@@ -192,8 +253,7 @@ class FlClashBridge:
         log(f"  IPC 桥接就绪（本地内核口 {local_port}）")
 
         # GUI 重连后不会重发 init/setup；由脚本自行初始化。
-        # UnrivaledSpeed 内核能解密 home-dir/config.yaml。
-        home = Path(os.environ.get("APPDATA", "")) / "chaoshihui" / "chaoshihui"
+        home = brand.home_dir()
         if not (home / "config.yaml").is_file():
             raise RuntimeError(f"找不到配置目录: {home}")
         selected = {}
@@ -349,6 +409,7 @@ class FlClashBridge:
         self.alive = False
         gui_port = self.gui_port
         install = self.install
+        brand = self.brand
         for s in (self.gui_sock, self.core_sock):
             try:
                 if s:
@@ -368,29 +429,33 @@ class FlClashBridge:
                 pass
         self.core_proc = None
         time.sleep(0.25)
-        # GUI 不会对重连内核重发 init；拉起后台 handback 桥接并自助初始化。
         if respawn_for_gui and gui_port and install:
-            spawn_handback(install, gui_port, preferred_node)
+            spawn_handback(install, gui_port, preferred_node, brand=brand)
 
 
 def spawn_handback(
     install: Path,
     gui_port: int,
     preferred_node: Optional[str] = None,
+    brand: Optional[BrandProfile] = None,
 ) -> None:
+    brand = brand or get_brand()
     script = Path(__file__).resolve()
     cmd = [
         sys.executable,
         str(script),
         "--handback",
+        brand.id,
         str(install),
         str(gui_port),
     ]
-    # 节点名含 emoji/特殊字符，走环境变量避免 Windows 命令行编码丢失
     env = os.environ.copy()
+    env["FLCLASH_BRAND"] = brand.id
     if preferred_node:
-        env["CSH_HANDBACK_NODE"] = preferred_node
+        env["FLCLASH_HANDBACK_NODE"] = preferred_node
+        env["CSH_HANDBACK_NODE"] = preferred_node  # 兼容旧 handback
     else:
+        env.pop("FLCLASH_HANDBACK_NODE", None)
         env.pop("CSH_HANDBACK_NODE", None)
     kwargs: dict[str, Any] = {
         "cwd": str(script.parent),
@@ -410,7 +475,7 @@ def spawn_handback(
     time.sleep(1.2)
 
 
-def _agent_http_ok(base: str = AGENT_BASE, timeout: float = 1.0) -> bool:
+def _agent_http_ok(base: str, timeout: float = 1.0) -> bool:
     try:
         import urllib.request
 
@@ -426,31 +491,46 @@ def _agent_http_ok(base: str = AGENT_BASE, timeout: float = 1.0) -> bool:
         return False
 
 
-def ensure_agent(install: Path, log=print, preferred_node: Optional[str] = None) -> str:
+def ensure_agent(
+    install: Path,
+    log=print,
+    preferred_node: Optional[str] = None,
+    brand: Optional[BrandProfile] = None,
+) -> str:
     """确保常驻桥 + Clash 兼容控制口可用；已存在则不拆核心。"""
-    if _agent_http_ok():
-        log(f"  复用常驻控制桥 {AGENT_BASE}（不拆核心）")
-        return AGENT_BASE
+    brand = brand or get_brand()
+    base = brand.agent_base
+    if _agent_http_ok(base):
+        log(f"  复用常驻控制桥 {base}（不拆核心）")
+        return base
 
-    gui_port = find_gui_control_port()
+    gui_port = find_gui_control_port(brand)
     if not gui_port:
-        raise RuntimeError("找不到 GUI 控制口（请确认超实惠加速主界面已打开）")
+        raise RuntimeError(f"找不到 GUI 控制口（请确认{brand.display_name}主界面已打开）")
 
     log(f"  首次接入常驻桥：短暂重拉内核一次，之后测速不再断开")
-    log(f"  GUI 控制口 {gui_port} → 控制面 {AGENT_BASE}")
-    spawn_handback(install, gui_port, preferred_node)
+    log(f"  GUI 控制口 {gui_port} → 控制面 {base}")
+    spawn_handback(install, gui_port, preferred_node, brand=brand)
 
     deadline = time.time() + 25
     while time.time() < deadline:
-        if _agent_http_ok():
-            log(f"  常驻桥就绪 {AGENT_BASE}")
-            return AGENT_BASE
+        if _agent_http_ok(base):
+            log(f"  常驻桥就绪 {base}")
+            return base
         time.sleep(0.5)
-    raise RuntimeError(f"常驻桥未在 25s 内就绪（{AGENT_BASE}）")
+    raise RuntimeError(f"常驻桥未在 25s 内就绪（{base}）")
 
 
-def start_agent_server(controller: "FlClashController", host: str = AGENT_HOST, port: int = AGENT_PORT):
+def start_agent_server(
+    controller: "FlClashController",
+    host: str = AGENT_HOST,
+    port: Optional[int] = None,
+    brand: Optional[BrandProfile] = None,
+):
     """在 handback 进程内提供 Clash 兼容 HTTP（供测速脚本复用）。"""
+    brand = brand or get_brand()
+    if port is None:
+        port = brand.agent_port
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, fmt, *args):
@@ -479,7 +559,6 @@ def start_agent_server(controller: "FlClashController", host: str = AGENT_HOST, 
                 if path == "/proxies":
                     return self._send(200, {"proxies": controller.proxies()})
                 if path.startswith("/proxies/") and path.endswith("/delay"):
-                    # asyncTestDelay 会崩内核；显式不支持（脚本走软预筛）
                     return self._send(501, {"message": "delay unsupported over IPC agent"})
                 if path.startswith("/proxies/"):
                     name = urllib.parse.unquote(path[len("/proxies/") :])
@@ -523,16 +602,22 @@ def start_agent_server(controller: "FlClashController", host: str = AGENT_HOST, 
                 return self._send(500, {"message": str(e)})
 
     srv = ThreadingHTTPServer((host, port), Handler)
-    t = threading.Thread(target=srv.serve_forever, name="csh-agent-http", daemon=True)
+    t = threading.Thread(target=srv.serve_forever, name=f"{brand.id}-agent-http", daemon=True)
     t.start()
     return srv
 
 
-def handback_loop(install: Path, gui_port: int, preferred_node: Optional[str] = None) -> None:
+def handback_loop(
+    install: Path,
+    gui_port: int,
+    preferred_node: Optional[str] = None,
+    brand: Optional[BrandProfile] = None,
+) -> None:
     """后台维持已初始化内核 + Agent HTTP，直到 GUI 或内核退出。"""
-    kill_core()
+    brand = brand or get_brand()
+    kill_core(brand)
     time.sleep(0.3)
-    bridge = FlClashBridge()
+    bridge = FlClashBridge(brand=brand)
 
     def _silent(msg: str = "") -> None:
         return None
@@ -546,11 +631,10 @@ def handback_loop(install: Path, gui_port: int, preferred_node: Optional[str] = 
         except Exception:
             pass
     try:
-        start_agent_server(controller)
+        start_agent_server(controller, brand=brand)
     except OSError:
-        # 端口被旧 agent 占用时再试一次
         time.sleep(0.5)
-        start_agent_server(controller)
+        start_agent_server(controller, brand=brand)
     try:
         while bridge.core_proc and bridge.core_proc.poll() is None and bridge.alive:
             time.sleep(2)
@@ -565,7 +649,9 @@ class FlClashController:
         self.bridge = bridge
 
     def version(self) -> dict:
-        return {"premium": True, "version": "unrivaled-ipc-ndjson"}
+        brand = getattr(self.bridge, "brand", None)
+        tag = brand.id if brand else "ipc"
+        return {"premium": True, "version": f"unrivaled-ipc-{tag}"}
 
     def configs(self) -> dict:
         return {"mode": "rule"}
@@ -609,11 +695,22 @@ class FlClashController:
 
 
 if __name__ == "__main__":
+    # 新: --handback <brand> <install> <gui_port>
+    # 旧: --handback <install> <gui_port>
     if len(sys.argv) >= 4 and sys.argv[1] == "--handback":
-        _install = Path(sys.argv[2])
-        _port = int(sys.argv[3])
-        _node = sys.argv[4] if len(sys.argv) > 4 else os.environ.get("CSH_HANDBACK_NODE")
-        handback_loop(_install, _port, _node)
+        if sys.argv[2] in BRANDS and len(sys.argv) >= 5:
+            _brand = get_brand(sys.argv[2])
+            _install = Path(sys.argv[3])
+            _port = int(sys.argv[4])
+        else:
+            _brand = get_brand()
+            _install = Path(sys.argv[2])
+            _port = int(sys.argv[3])
+        _node = (
+            os.environ.get("FLCLASH_HANDBACK_NODE")
+            or os.environ.get("CSH_HANDBACK_NODE")
+        )
+        handback_loop(_install, _port, _node, brand=_brand)
         raise SystemExit(0)
-    print("Usage: python flclash_ipc.py --handback <install_dir> <gui_port> [node]")
+    print("Usage: python flclash_ipc.py --handback [brand] <install_dir> <gui_port>")
     raise SystemExit(2)

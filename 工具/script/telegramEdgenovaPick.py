@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-超实惠加速（chaoshihui）节点优选 — Telegram 视频向
+EdgeNova（edgenova）节点优选 — Telegram 视频向
 
-自动识别本机正在运行的「超实惠加速」：
-  - 内核: Clash Meta / Mihomo（UnrivaledSpeed，FlClash 魔改）
-  - 控制: 优先 Clash External Controller；否则常驻 IPC 桥（127.0.0.1:19692）
+界面/协议与「超实惠加速」同系（UnrivaledSpeed / FlClash 魔改 + Mihomo）：
+  - 控制: 优先 Clash External Controller；否则常驻 IPC 桥（127.0.0.1:19693）
   - 流量: mixed-port（默认 7892）
 
-说明: 软件会清空 external-controller，UI「外部控制」常固定 9090（易被 Docker 占用）。
-默认拉起一次常驻桥后复用，测速不再每次拆核心（更接近 Clash 体验）。
+默认拉起一次常驻桥后复用，测速不再每次拆核心。
 
 依赖: pip install requests
 """
@@ -50,7 +48,8 @@ if hasattr(sys.stdout, "reconfigure"):
         pass
 
 
-APP_NAMES = ("chaoshihui", "chaoshihuiCore")
+BRAND = flclash_ipc.EDGENOVA
+APP_NAMES = ("edgenova", "edgenovacore")
 
 
 def find_processes() -> dict:
@@ -79,23 +78,24 @@ def find_processes() -> dict:
 
 def find_install_dir() -> Optional[Path]:
     candidates = [
-        Path(r"D:\soft\chaoshihui"),
-        Path(os.environ.get("LOCALAPPDATA", "")) / "chaoshihui",
-        Path(os.environ.get("ProgramFiles", "")) / "chaoshihui",
+        Path(r"E:\soft\edgenova"),
+        Path(r"D:\soft\edgenova"),
+        Path(os.environ.get("LOCALAPPDATA", "")) / "edgenova",
+        Path(os.environ.get("ProgramFiles", "")) / "edgenova",
     ]
-    for soft in (Path(r"D:\soft"), Path(r"C:\soft")):
+    for soft in (Path(r"E:\soft"), Path(r"D:\soft"), Path(r"C:\soft")):
         if soft.is_dir():
             for child in soft.iterdir():
-                if child.is_dir() and "chaoshihui" in child.name.lower():
+                if child.is_dir() and "edgenova" in child.name.lower():
                     candidates.append(child)
     for p in candidates:
-        if (p / "chaoshihui.exe").is_file():
+        if (p / BRAND.gui_exe).is_file():
             return p
     return None
 
 
 def find_data_dir() -> Optional[Path]:
-    p = Path(os.environ.get("APPDATA", "")) / "chaoshihui" / "chaoshihui"
+    p = BRAND.home_dir()
     if p.is_dir() and (p / "shared_preferences.json").is_file():
         return p
     return None
@@ -110,7 +110,7 @@ def fingerprint_core(install: Optional[Path]) -> dict:
     }
     if not install:
         return info
-    core = install / "chaoshihuiCore.exe"
+    core = install / BRAND.core_exe
     if not core.is_file():
         return info
     try:
@@ -121,7 +121,7 @@ def fingerprint_core(install: Optional[Path]) -> dict:
     if b"metacubex/mihomo" in data or b"MetaCubeX" in data:
         info["engine"] = "Clash Meta / Mihomo"
     if b"UnrivaledSpeed" in data:
-        info["family"] = "超实惠加速 (UnrivaledSpeed / FlClash 魔改)"
+        info["family"] = "EdgeNova (UnrivaledSpeed / FlClash 魔改)"
         info["control"] = "FlClash IPC（主） / External Controller（可选）"
     elif info["engine"] != "unknown":
         info["family"] = "Clash Meta 系客户端"
@@ -195,7 +195,7 @@ def soft_preflight(
                     timeout=req_timeout,
                     stream=True,
                     allow_redirects=False,
-                    headers={"User-Agent": "telegram-csh-pick/1.0"},
+                    headers={"User-Agent": "telegram-edgenova-pick/1.0"},
                 )
                 # 204/200 都算通；读一点数据触发首包
                 _ = next(r.iter_content(256), b"")
@@ -216,7 +216,7 @@ def soft_preflight(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="超实惠加速 Telegram 视频节点优选")
+    parser = argparse.ArgumentParser(description="EdgeNova Telegram 视频节点优选")
     parser.add_argument("--api", default=None, help="若已开 External Controller，如 http://127.0.0.1:9090")
     parser.add_argument("--secret", default="")
     parser.add_argument("--proxy", default=None)
@@ -261,15 +261,15 @@ def main() -> int:
     result_dir.mkdir(parents=True, exist_ok=True)
     top5_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    logfile = result_dir / f"tg_csh_{stamp}.log"
-    top5_file = top5_dir / f"csh_{stamp}.txt"
+    logfile = result_dir / f"tg_edgenova_{stamp}.log"
+    top5_file = top5_dir / f"edgenova_{stamp}.txt"
 
     with logfile.open("w", encoding="utf-8") as fp:
         def log(msg: str = ""):
             tgp.log(msg, fp)
 
         log("=" * 60)
-        log("超实惠加速 · Telegram 视频节点优选")
+        log("EdgeNova · Telegram 视频节点优选")
         log(f"时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         log("=" * 60)
 
@@ -288,8 +288,8 @@ def main() -> int:
         log(f"  控制面: {fpinfo['control']}")
         log(f"  细节: {fpinfo['detail']}")
 
-        if "chaoshihui" not in procs and not data_dir:
-            log("未检测到超实惠加速，请先启动软件。")
+        if "edgenova" not in procs and not data_dir:
+            log("未检测到 EdgeNova，请先启动软件。")
             return 1
         if data_dir is None:
             log("找不到配置目录")
@@ -306,25 +306,29 @@ def main() -> int:
 
         # ---- 控制面 ----
         secret = args.secret or os.environ.get("CLASH_SECRET", "")
-        api_base = args.api or probe_existing_api(secret)
+        # 先认本品牌常驻桥，避免误连超实惠/Ninja 的控制器
+        api_base = args.api
+        if not api_base and clash_api_alive(BRAND.agent_base, ""):
+            api_base = BRAND.agent_base
+        if not api_base:
+            api_base = probe_existing_api(secret)
         api = None
         control_mode = ""
         final_node: Optional[str] = None
         use_agent_soft_preflight = False
 
-        if api_base and clash_api_alive(api_base, secret):
-            api = tgp.ClashAPI(api_base, secret)
+        if api_base and clash_api_alive(api_base, secret if api_base != BRAND.agent_base else ""):
+            api = tgp.ClashAPI(api_base, "" if "19693" in api_base else secret)
             control_mode = f"HTTP {api_base}"
             log(f"  使用 HTTP API: {api_base}")
+            use_agent_soft_preflight = api_base.rstrip("/") == BRAND.agent_base.rstrip("/")
         else:
             log()
             log(">>> [控制面] 常驻 IPC 桥（Clash 兼容口）")
             log("  原因: 软件无可用 external-controller；直接拆核心会导致界面显示断开")
             log("  策略: 首次接入重拉一次内核，之后复用，测速过程不再断开")
             try:
-                agent = flclash_ipc.ensure_agent(
-                    install, log=log, brand=flclash_ipc.CHAOSHIHUI
-                )
+                agent = flclash_ipc.ensure_agent(install, log=log, brand=BRAND)
                 api = tgp.ClashAPI(agent, "")
                 control_mode = f"Agent {agent}"
                 use_agent_soft_preflight = True
@@ -527,7 +531,7 @@ def main() -> int:
                 },
             )
             extra = (
-                f"软件: 超实惠加速\n"
+                f"软件: EdgeNova\n"
                 f"引擎: {fpinfo['engine']}\n"
                 f"家族: {fpinfo['family']}\n"
                 f"控制: {control_mode}\n"
