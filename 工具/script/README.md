@@ -36,24 +36,30 @@ python 工具/script/telegramNodePick.py --no-apply
 日志：`result/tg_nodes_时间戳.log`  
 Top5：`result/top5/时间戳.txt`
 
-## telegramCshPick.py 超实惠加速专用（自动识别 Clash Meta 协议）
+## telegramCshPick.py 超实惠加速专用（FlClash IPC / External Controller）
 
-检测正在运行的「超实惠加速」(chaoshihui)：判定为 Clash Meta / FlClash 魔改，自动开启 External Controller，再按 Telegram 视频标准选节点。
+自动识别本机「超实惠加速」(chaoshihui = UnrivaledSpeed / FlClash 魔改 + Mihomo)：
+
+- **优先** HTTP External Controller（若已可用，体验最接近 Clash）
+- **否则** 常驻 IPC 桥：`127.0.0.1:19692`（Clash 兼容口）；**首次**短暂重拉内核，之后测速**不再拆核心**
+- 流量口：`mixed-port`（常见 **7892**）
+- 桥模式下无可用 `delay`（会崩内核），预筛为「切换 + TG TTFB」；精测仍切节点测带宽
 
 ```bash
-# 首次：写入 API 并重启软件，然后测速选节点
-python 工具/script/telegramCshPick.py --restart
-
-# 之后软件已开着、API 已启用时
+# 推荐：软件已打开时直接跑（第二次起不再闪断）
 python 工具/script/telegramCshPick.py
 
-# 只测港日等
-python 工具/script/telegramCshPick.py --filter "香港|日本|HK|JP|新加坡"
+# 只测港日新
+python 工具/script/telegramCshPick.py --filter "香港|日本|新加坡|HK|JP|SG"
+
+# 精测更少更快
+python 工具/script/telegramCshPick.py --preflight-top 5 --duration 4
+
+# 已手动打开外部控制器时（最丝滑）
+python 工具/script/telegramCshPick.py --api http://127.0.0.1:9090
 ```
 
-识别结论：超实惠加速 = Clash Meta（UnrivaledSpeed/FlClash 魔改），节点切换走 Clash External Controller；流量口为 mixed-port（常见 7892）。
-
-若 `--restart` 后 API 仍不可用：在任务管理器结束全部 `chaoshihui`，软件内打开系统代理，再重跑。
+说明：软件会清空 `external-controller`；UI「外部控制」常固定 `9090`（易被 Docker 占用）。想完全等同 Clash：释放 9090 → 软件内打开外部控制器 → `--api`。
 
 日志：`result/tg_csh_时间戳.log`  
 Top5：`result/top5/csh_时间戳.txt`
