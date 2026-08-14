@@ -1,3 +1,47 @@
+## 快捷命令 将本地8800端口转发局域网服务http://10.147.47.168:8800/
+
+``` bash
+sudo tee /etc/nginx/sites-available/nextcloud <<'EOF'
+server {
+    listen 8800;
+    server_name nextcloud;
+    location / {
+        proxy_pass http://10.147.47.168:8800/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffering off;
+        client_max_body_size 10G;
+    }
+}
+EOF
+sudo ln -sf /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/ && sudo nginx -t && sudo systemctl reload nginx
+
+```
+
+## 快捷命令 删除相关软连接
+
+``` bash
+# 1. 删除软链接（禁用站点）
+sudo rm -f /etc/nginx/sites-enabled/nextcloud
+
+# 2. 删除配置文件
+sudo rm -f /etc/nginx/sites-available/nextcloud
+
+# 3. 测试配置
+sudo nginx -t
+
+# 4. 重载 Nginx
+sudo systemctl reload nginx
+```
+
+
+
+
+
+
+
 ## nginx 配置文件存放位置 - whereis nginx
 ```bash
 cd /etc/nginx/sites-available
