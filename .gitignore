@@ -26,3 +26,6 @@ dist
 cache
 
 output
+
+result/
+__pycache__/

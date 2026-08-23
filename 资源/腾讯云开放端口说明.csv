@@ -1,14 +1,5 @@
 ﻿CidrBlock,Protocol,Port,Action,FirewallRuleDescription
-0.0.0.0/0,TCP,7001,ACCEPT,冗余端口 // clash控制面板
-0.0.0.0/0,TCP,7002,ACCEPT,冗余端口
-0.0.0.0/0,TCP,7003,ACCEPT,冗余端口
-0.0.0.0/0,TCP,7004,ACCEPT,冗余端口
-0.0.0.0/0,TCP,7005,ACCEPT,冗余端口
-0.0.0.0/0,TCP,7006,ACCEPT,冗余端口
-0.0.0.0/0,TCP,7007,ACCEPT,冗余端口
-0.0.0.0/0,TCP,7008,ACCEPT,冗余端口
-0.0.0.0/0,TCP,7009,ACCEPT,冗余端口
-0.0.0.0/0,TCP,7010,ACCEPT,冗余端口
+0.0.0.0/0,TCP,7001 - 7010,ACCEPT, // frpc ftp转发
 0.0.0.0/0,UDP,9994,ACCEPT,zerotier
 0.0.0.0/0,TCP,9994,ACCEPT,zerotier
 0.0.0.0/0,TCP,3388,ACCEPT,

@@ -126,8 +126,28 @@ sudo systemctl enable redis
 # 检查 Redis 是否运行正常
 systemctl status redis
 # 测试连接： 使用 Redis CLI 测试连接：
-redis-cli
+redis-cli   
+redis-cli ping
+
+# 设置密码
+sudo sed -i 's/^# requirepass foobared/requirepass 你的密码/' /etc/redis/redis.conf
+sudo systemctl daemon-reload
+sudo systemctl restart redis-server
+
+# 密码登录
+redis-cli -a 你的密码
+
+# 设置外网使用
+## 检查ip是否只本地可访问 ：grep "^bind" /etc/redis/redis.conf  # 显示结果为：bind 127.0.0.1 -::1
+sudo sed -i 's/^bind 127.0.0.1 -::1/bind 0.0.0.0/' /etc/redis/redis.conf
+## 检查保护模式 grep "^protected-mode" /etc/redis/redis.conf # 显示结果为： protected-mode yes
+##改成保护模式no  
+sudo sed -i 's/^protected-mode yes/protected-mode no/' /etc/redis/redis.conf
+
+## 连接redis
+redis://:77~6aA@139.199.192.179:6379
 ```
+
 
 # redis 基本操作 
 
