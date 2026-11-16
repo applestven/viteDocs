@@ -44,7 +44,7 @@ docker exec -u www-data nextcloud php occ user:info apple | grep -i enabled
 ### 方式一：交互式重置（推荐）
 
 ```bash
-docker exec -it -u www-data nextcloud php occ user:resetpassword apple
+docker exec -it -u www-data nextcloud_app php occ user:resetpassword apple
 ```
 
 按提示输入两次新密码即可。
